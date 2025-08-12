@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sua Hamburgueria</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body class="bg-black text-white font-sans">
+
+  <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-60 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <h1 class="text-2xl font-bold tracking-widest">MEU <span class="text-yellow-500">BURGUER</span></h1>
+      <nav class="space-x-6 hidden md:block">
+        <a href="#home" class="hover:text-yellow-500 transition">Início</a>
+        <a href="#menu" class="hover:text-yellow-500 transition">Cardápio</a>
+        <a href="#sobre" class="hover:text-yellow-500 transition">Sobre</a>
+        <a href="#contato" class="hover:text-yellow-500 transition">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="h-screen flex items-center justify-center relative overflow-hidden">
+    <!-- Imagem de fundo -->
+    <img src="https://images.unsplash.com/photo-1550317138-10000687a72b" 
+         class="absolute w-full h-full object-cover opacity-60" alt="Hambúrguer">
+    
+    <!-- Conteúdo -->
+    <div class="relative text-center px-4">
+      <h2 class="text-5xl md:text-7xl font-extrabold mb-6">O Sabor que Explode</h2>
+      <p class="text-lg md:text-xl mb-8">Hambúrguer artesanal, carne suculenta, queijo derretendo...</p>
+      <a href="#menu" class="bg-yellow-500 text-black px-6 py-3 rounded-full text-lg font-bold hover:bg-yellow-400 transition">
+        Ver Cardápio
+      </a>
+    </div>
+  </section>
+
+  <!-- Script de animação -->
+  <script>
+    gsap.from("header", { y: -100, opacity: 0, duration: 1, ease: "power3.out" });
+    gsap.from("#home h2", { y: 50, opacity: 0, duration: 1, delay: 0.5 });
+    gsap.from("#home p", { y: 50, opacity: 0, duration: 1, delay: 0.8 });
+    gsap.from("#home a", { scale: 0, opacity: 0, duration: 0.8, delay: 1.1, ease: "back.out(1.7)" });
+  </script>
+</body>
+</html>
