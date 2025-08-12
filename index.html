@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Garagem 127</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -17,20 +17,21 @@
 <body class="bg-black text-white font-sans">
 
   <!-- Navbar -->
-<header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-60 backdrop-blur-md">
-  <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
-    <a href="#home" class="flex items-center space-x-2">
-      <img src="logo.png.png" alt="Garagem 127 Logo" class="h-10 w-auto" />
-      <span class="text-2xl font-bold tracking-widest text-white">GARAGEM <span class="text-[var(--amarelo-escuro)]">127</span></span>
-    </a>
-    <nav class="space-x-6 hidden md:block">
-      <a href="#home" class="hover:text-[var(--amarelo-escuro)] transition">Início</a>
-      <a href="#menu" class="hover:text-[var(--amarelo-escuro)] transition">Cardápio</a>
-      <a href="#sobre" class="hover:text-[var(--amarelo-escuro)] transition">Sobre</a>
-      <a href="#contato" class="hover:text-[var(--amarelo-escuro)] transition">Contato</a>
-    </nav>
-  </div>
-</header>
+  <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-60 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
+      <a href="#home" class="flex items-center space-x-2">
+        <!-- Troca o src para a logo da sua pasta -->
+        <img src="logo.png" alt="Garagem 127 Logo" class="h-10 w-auto" />
+        <span class="text-2xl font-bold tracking-widest text-white">GARAGEM <span class="text-[var(--amarelo-escuro)]">127</span></span>
+      </a>
+      <nav class="space-x-6 hidden md:block">
+        <a href="#home" class="hover:text-[var(--amarelo-escuro)] transition">Início</a>
+        <a href="#menu" class="hover:text-[var(--amarelo-escuro)] transition">Cardápio</a>
+        <a href="#sobre" class="hover:text-[var(--amarelo-escuro)] transition">Sobre</a>
+        <a href="#contato" class="hover:text-[var(--amarelo-escuro)] transition">Contato</a>
+      </nav>
+    </div>
+  </header>
 
   <!-- Hero -->
   <section id="home" class="h-screen flex items-center justify-center relative overflow-hidden">
@@ -52,7 +53,7 @@
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Item 1 -->
         <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
-          <img src="imagem1.jpg" alt="X-Burger" />
+          <img src="imagem1.jpeg" class="w-full h-56 object-cover" alt="X-Burger" />
           <div class="p-6">
             <h4 class="text-2xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Burger</h4>
             <p>Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
@@ -60,7 +61,7 @@
         </div>
         <!-- Item 2 -->
         <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Bacon">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Bacon" />
           <div class="p-6">
             <h4 class="text-2xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Bacon</h4>
             <p>Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.</p>
@@ -68,7 +69,7 @@
         </div>
         <!-- Item 3 -->
         <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
-          <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" class="w-full h-56 object-cover" alt="X-Salada">
+          <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" class="w-full h-56 object-cover" alt="X-Salada" />
           <div class="p-6">
             <h4 class="text-2xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Salada</h4>
             <p>Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.</p>
@@ -81,28 +82,66 @@
   <!-- Sobre -->
   <section id="sobre" class="py-20 bg-black">
     <div class="max-w-6xl mx-auto px-4 md:flex items-center gap-10">
-      <img src="https://images.unsplash.com/photo-1516685018646-549198525c1c" class="w-full md:w-1/2 rounded-xl shadow-lg" alt="Interior">
+      <img src="https://images.unsplash.com/photo-1516685018646-549198525c1c" class="w-full md:w-1/2 rounded-xl shadow-lg" alt="Interior" />
       <div class="md:w-1/2 mt-8 md:mt-0">
         <h3 class="text-4xl font-bold mb-4 text-[var(--amarelo-escuro)]">Sobre a Garagem 127</h3>
         <p class="mb-4">Aberta todos os dias para atender sua fome, nossa missão é entregar hambúrgueres artesanais com qualidade e sabor incomparável.</p>
-        <p><strong>Horário:</strong> Segunda a Domingo das 18h às 23:30h <br> Almoço: Segunda a Sábado das 11h às 15h</p>
+        <p><strong>Horário:</strong> Segunda a Domingo das 18h às 23:30h <br /> Almoço: Segunda a Sábado das 11h às 15h</p>
       </div>
     </div>
   </section>
 
   <!-- Contato -->
-<section id="contato" class="py-20 bg-[var(--verde)] text-center">
-  <h3 class="text-4xl font-bold mb-6 text-white">Faça seu Pedido</h3>
-  <p class="mb-6">Rua Antonio Johnson, 3733 - Alto Pinheiro, Almirante Tamandaré, PR</p>
-  <div class="space-x-4 mb-6">
-    <a href="https://wa.me/5541997165785" target="_blank" class="bg-[var(--amarelo-escuro)] text-black px-6 py-3 rounded-full font-bold hover:bg-yellow-500">WhatsApp</a>
-    <a href="https://www.instagram.com/garagem127ofc" target="_blank" class="bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-gray-200">Instagram</a>
-  </div>
-  <div>
-    <a href="https://wa.me/5541997165785?text=Oi!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20vagas,%20para%20fazer%20parte%20do%20time!" target="_blank" class="inline-block bg-white text-[var(--verde)] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition">
-      Trabalhe Conosco
-    </a>
-  </div>
-</section>
+  <section id="contato" class="py-20 bg-[var(--verde)] text-center">
+    <h3 class="text-4xl font-bold mb-6 text-white">Faça seu Pedido</h3>
+    <p class="mb-6">Rua Antonio Johnson, 3733 - Alto Pinheiro, Almirante Tamandaré, PR</p>
+    <div class="space-x-4 mb-6">
+      <a href="https://wa.me/5541997165785" target="_blank" class="bg-[var(--amarelo-escuro)] text-black px-6 py-3 rounded-full font-bold hover:bg-yellow-500">WhatsApp</a>
+      <a href="https://www.instagram.com/garagem127ofc" target="_blank" class="bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-gray-200">Instagram</a>
+    </div>
+    <div>
+      <a href="https://wa.me/5541997165785?text=Oi!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20vagas,%20para%20fazer%20parte%20do%20time!" target="_blank" class="inline-block bg-white text-[var(--verde)] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition">
+        Trabalhe Conosco
+      </a>
+    </div>
+  </section>
 
-  <!-- Scripts de Anim
+  <!-- Scripts de Animação -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Navbar deslizando de cima
+    gsap.from("header", { y: -100, opacity: 0, duration: 1, ease: "power3.out" });
+
+    // Título e texto do Hero
+    gsap.from("#home h2", { y: 50, opacity: 0, duration: 1, delay: 0.5 });
+    gsap.from("#home p", { y: 50, opacity: 0, duration: 1, delay: 0.8 });
+
+    // Botão do Hero “Ver Cardápio”
+    gsap.from("#home a", { scale: 0, opacity: 0, duration: 0.8, delay: 1.1, ease: "back.out(1.7)" });
+
+    // Cardápio (cada item aparece um por um)
+    gsap.utils.toArray(".menu-item").forEach((item, i) => {
+      gsap.to(item, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: i * 0.3 + 1.5,
+        scrollTrigger: {
+          trigger: item,
+          start: "top 80%",
+        }
+      });
+    });
+
+    // Scroll suave para navegação
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
