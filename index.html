@@ -89,11 +89,9 @@
     </div>
   </section>
 
-  <!-- Mapa e botão Como Chegar -->
-  <section id="mapa" class="max-w-6xl mx-auto px-4 py-10">
-    <h3 class="text-3xl font-bold mb-6 text-white text-center">Nossa Localização</h3>
-    
-    <div class="w-full h-72 md:h-96 rounded-lg overflow-hidden mb-6 shadow-lg">
+  <!-- Mapa + Endereço + Botões -->
+  <section id="localizacao" class="max-w-6xl mx-auto px-4 py-10 text-center">
+    <div class="w-full h-72 md:h-96 rounded-lg overflow-hidden mb-6 shadow-lg mx-auto max-w-4xl">
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7304.682374351759!2d-49.333756199999996!3d-25.4359176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dd43e0e42c8369%3A0x323c6eb5a931a8bc!2sRua%20Antonio%20Johnson%2C%203733%20-%20Alto%20Pinheiro%2C%20Almirante%20Tamandar%C3%A9%20-%20PR%2C%2082560-000!5e0!3m2!1spt-BR!2sbr!4v1692038901727!5m2!1spt-BR!2sbr" 
         width="100%" 
@@ -106,23 +104,21 @@
       ></iframe>
     </div>
 
-    <div class="text-center">
+    <p class="mb-4 text-white font-semibold">Rua Antonio Johnson, 3733 - Alto Pinheiro, Almirante Tamandaré, PR</p>
+
+    <div class="space-y-4 max-w-xs mx-auto">
       <a 
         href="https://www.google.com/maps/dir/?api=1&destination=Rua+Antonio+Johnson,+3733,+Alto+Pinheiro,+Almirante+Tamandaré,+PR" 
         target="_blank" 
-        class="inline-block bg-[var(--amarelo-escuro)] text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition"
+        class="block bg-[var(--amarelo-escuro)] text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition"
       >
         Como Chegar
       </a>
-    </div>
-  </section>
 
-  <!-- Contato -->
-  <section id="contato" class="py-20 bg-[var(--verde)] text-center">
-    <h3 class="text-4xl font-bold mb-6 text-white">GARAGEM 127 🍔</h3>
-    <p class="mb-6">Rua Antonio Johnson, 3733 - Alto Pinheiro, Almirante Tamandaré, PR</p>
-    <div class="space-x-4 mb-6">
-      <a href="https://wa.me/5541997165785?text=Oi!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20vagas,%20para%20fazer%20parte%20do%20time!" target="_blank" class="inline-block bg-white text-[var(--verde)] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition">
+      <a href="https://wa.me/5541997165785?text=Oi!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20vagas,%20para%20fazer%20parte%20do%20time!" 
+         target="_blank" 
+         class="block bg-white text-[var(--verde)] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition"
+      >
         Trabalhe Conosco
       </a>
     </div>
@@ -182,36 +178,6 @@
       style="position: fixed; bottom: 20px; right: 20px; width: 60px; z-index: 999; cursor: pointer;"
     >
   </a>
-
-  <style>
-    .whatsapp-float {
-        position: fixed;
-        width: 60px;
-        height: 60px;
-        bottom: 20px;
-        right: 20px;
-        background-color: #25d366;
-        color: white;
-        border-radius: 50%;
-        text-align: center;
-        font-size: 30px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-        z-index: 100;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s;
-    }
-
-    .whatsapp-float:hover {
-        transform: scale(1.1);
-    }
-
-    .whatsapp-float img {
-        width: 35px;
-        height: 35px;
-    }
-  </style>
 
 </body>
 </html>
