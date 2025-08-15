@@ -143,5 +143,43 @@
     });
   </script>
 
+  <!-- Botão WhatsApp Flutuante -->
+<a href="+55 41 99716-5785" 
+   target="_blank" 
+   class="whatsapp-float">
+    <img src="WhatsApp-icone.png" alt="WhatsApp" />
+</a>
+
+<style>
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+}
+
+.whatsapp-float img {
+    width: 35px;
+    height: 35px;
+}
+</style>
+
+
 </body>
 </html>
