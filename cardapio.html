@@ -15,6 +15,10 @@
       color: white;
       font-family: 'Segoe UI', sans-serif;
     }
+    .bg-verde {
+      background-color: #1a3d2f !important;
+      color: white !important;
+    }
   </style>
 </head>
 <body class="relative">
@@ -121,18 +125,17 @@
         cartItems.innerHTML += `
           <li class="flex justify-between items-center space-x-2">
             <span class="flex-1 text-white">${item.nome} x${item.qtd}</span>
-            <div class="flex items-center space-x-1">
-              <button onclick="decreaseQty(${item.id})" class="bg-red-600 hover:bg-red-700 px-2 rounded text-white font-bold">-</button>
-              <button onclick="increaseQty(${item.id})" class="bg-[var(--verde)] hover:bg-green-700 px-2 rounded text-white font-bold">+</button>
+            <div class="flex items-center space-x-2">
+              <button onclick="decreaseQty(${item.id})" class="bg-gray-700 px-2 rounded text-white font-bold">-</button>
+              <button onclick="increaseQty(${item.id})" class="bg-gray-700 px-2 rounded text-white font-bold">+</button>
+              <span>R$ ${(item.preco * item.qtd).toFixed(2)}</span>
             </div>
-            <span class="text-white">R$ ${(item.preco * item.qtd).toFixed(2)}</span>
           </li>
         `;
       });
       cartTotal.textContent = total.toFixed(2);
     }
 
-    // Aumentar quantidade
     function increaseQty(id) {
       const item = carrinho.find(i => i.id === id);
       if (item) {
@@ -141,17 +144,15 @@
       }
     }
 
-    // Diminuir quantidade
     function decreaseQty(id) {
-      const itemIndex = carrinho.findIndex(i => i.id === id);
-      if (itemIndex > -1) {
-        if (carrinho[itemIndex].qtd > 1) {
-          carrinho[itemIndex].qtd--;
-        } else {
-          carrinho.splice(itemIndex, 1);
-        }
-        updateCart();
+      const item = carrinho.find(i => i.id === id);
+      if (item && item.qtd > 1) {
+        item.qtd--;
+      } else {
+        // Remove item se quantidade for 1 e o usuário diminuir
+        carrinho = carrinho.filter(i => i.id !== id);
       }
+      updateCart();
     }
 
     // Abrir/Fechar carrinho
@@ -166,10 +167,11 @@
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => {
-          b.classList.remove('bg-[var(--verde)]', 'text-white');
+          b.classList.remove('bg-verde');
           b.classList.add('bg-black', 'text-white');
         });
-        btn.classList.add('bg-[var(--verde)]', 'text-white');
+        btn.classList.remove('bg-black');
+        btn.classList.add('bg-verde');
         renderMenu(btn.dataset.category);
       });
     });
