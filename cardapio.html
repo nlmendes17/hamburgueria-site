@@ -1,353 +1,303 @@
 <!DOCTYPE html>
-<html lang="pt-BR" >
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cardápio - Garagem 127</title>
+  <title>Cardápio Garagem 127</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background-color: #000; /* preto total */
+      background-color: #000;
       color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; padding: 0;
-      overflow-x: hidden;
     }
-    .container {
-      display: flex;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 20px;
+    .cart-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #d4a017;
+      color: black;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 0 10px rgba(212,160,23,0.7);
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    .cart-toggle:hover {
+      background-color: #e6b422;
+    }
+    .cart {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: 320px;
+      background: #111;
+      box-shadow: -4px 0 15px rgba(0,0,0,0.7);
       padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      overflow-y: auto;
+      z-index: 998;
+      display: flex;
+      flex-direction: column;
     }
-    .menu {
-      flex: 1 1 auto;
+    .cart.open {
+      transform: translateX(0);
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
+    }
+    .cart-header h2 {
+      font-size: 1.5rem;
+      color: #d4a017;
+    }
+    .close-cart {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #d4a017;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .cart-items {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+      padding: 10px 0;
+    }
+    .cart-item-name {
+      flex: 1;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .qty-btn {
+      background: #d4a017;
+      border: none;
+      color: black;
+      font-weight: 700;
+      padding: 2px 8px;
+      cursor: pointer;
+      border-radius: 4px;
+      user-select: none;
+    }
+    .cart-item-price {
+      width: 60px;
+      text-align: right;
+      font-weight: 600;
+    }
+    .cart-total {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-top: 1px solid #444;
+      padding-top: 10px;
+      color: #d4a017;
+    }
+    textarea#observations {
+      margin-top: 15px;
+      width: 100%;
+      height: 80px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: white;
+      padding: 10px;
+      resize: vertical;
+      font-size: 0.9rem;
+    }
+    button#finalize-btn {
+      margin-top: 15px;
+      width: 100%;
+      background: #d4a017;
+      border: none;
+      color: black;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button#finalize-btn:hover {
+      background-color: #e6b422;
+    }
+    /* Cardápio itens */
+    .menu-grid {
+      max-width: 960px;
+      margin: 50px auto 100px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      padding: 0 20px;
     }
     .menu-item {
-      background-color: #1f2937; /* bg-gray-800 */
+      background: #111;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      box-shadow: 0 0 10px rgba(212,160,23,0.5);
       display: flex;
       flex-direction: column;
       transition: transform 0.2s ease;
     }
     .menu-item:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
     }
     .menu-item img {
       width: 100%;
       height: 180px;
       object-fit: cover;
     }
-    .menu-content {
-      padding: 15px;
+    .menu-item-content {
+      padding: 15px 20px;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-    .menu-content h4 {
-      font-size: 1.5rem;
-      color: #d4a017; /* amarelo escuro */
+    .menu-item h4 {
+      color: #d4a017;
       margin-bottom: 6px;
+      font-size: 1.3rem;
     }
-    .menu-content p {
+    .menu-item p {
       flex-grow: 1;
       font-size: 0.95rem;
+      color: #ddd;
       margin-bottom: 12px;
-      color: #ccc;
     }
-    .menu-content .price {
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-bottom: 12px;
-      color: #facc15; /* amarelo claro */
-    }
-    .menu-content button {
-      background-color: #d4a017;
-      color: black;
-      padding: 8px 12px;
-      border-radius: 8px;
+    .menu-item-price {
       font-weight: 700;
-      cursor: pointer;
-      border: none;
-      transition: background-color 0.3s ease;
-    }
-    .menu-content button:hover {
-      background-color: #facc15;
-    }
-    /* Filtro */
-    .filter-buttons {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-    }
-    .filter-buttons button {
-      background-color: #374151; /* bg-gray-700 */
-      border: none;
-      color: white;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
-    .filter-buttons button.active,
-    .filter-buttons button:hover {
-      background-color: #d4a017;
-      color: black;
-    }
-
-    /* BOTÃO CARRINHO FIXO */
-    #cart-toggle-btn {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background-color: #d4a017;
-      color: black;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 24px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.7);
-      z-index: 1000;
-      transition: background-color 0.3s ease;
-    }
-    #cart-toggle-btn:hover {
-      background-color: #facc15;
-    }
-
-    /* CARRINHO LATERAL */
-    #cart {
-      position: fixed;
-      top: 0;
-      right: -400px; /* escondido inicialmente */
-      width: 350px;
-      height: 100vh;
-      background-color: #111827; /* bg-gray-900 */
-      box-shadow: -4px 0 15px rgba(0,0,0,0.7);
-      border-radius: 12px 0 0 12px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      transition: right 0.3s ease;
-      z-index: 999;
-    }
-    #cart.open {
-      right: 0;
-    }
-    #cart h3 {
-      font-size: 1.75rem;
-      margin-bottom: 15px;
-      color: #d4a017;
-    }
-    #cart-items {
-      flex-grow: 1;
-      overflow-y: auto;
-      margin-bottom: 15px;
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      color: #fff;
       margin-bottom: 12px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 8px;
     }
-    .cart-item span {
-      font-size: 1rem;
-      color: #eee;
-    }
-    .cart-item .item-qty {
-      margin: 0 10px;
-    }
-    .cart-item button {
-      background: transparent;
-      border: none;
-      color: #f87171; /* vermelho claro */
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 1.2rem;
-      line-height: 1;
-      padding: 0 6px;
-    }
-    #cart-total {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: #facc15;
-      margin-bottom: 12px;
-      text-align: right;
-    }
-    textarea#observations {
-      width: 100%;
-      padding: 8px;
-      border-radius: 8px;
-      resize: vertical;
-      min-height: 70px;
-      font-size: 1rem;
-      border: none;
-      outline: none;
-      margin-bottom: 12px;
-      background-color: #1f2937;
-      color: white;
-    }
-    #checkout-btn {
+    .btn-add {
       background-color: #d4a017;
       border: none;
       color: black;
-      padding: 12px 20px;
-      font-weight: 700;
-      border-radius: 12px;
+      padding: 10px 15px;
+      border-radius: 30px;
       cursor: pointer;
-      font-size: 1.1rem;
-      transition: background-color 0.3s ease;
-      width: 100%;
+      font-weight: 700;
+      transition: background-color 0.3s;
+      user-select: none;
     }
-    #checkout-btn:hover {
-      background-color: #facc15;
-    }
-    /* Scrollbar para carrinho */
-    #cart-items::-webkit-scrollbar {
-      width: 6px;
-    }
-    #cart-items::-webkit-scrollbar-track {
-      background: #1f2937;
-      border-radius: 10px;
-    }
-    #cart-items::-webkit-scrollbar-thumb {
-      background-color: #d4a017;
-      border-radius: 10px;
+    .btn-add:hover {
+      background-color: #e6b422;
     }
   </style>
 </head>
 <body>
-  <main class="container">
-    <!-- Menu e filtros -->
-    <section class="menu-section" style="flex: 1 1 auto;">
-      <div class="filter-buttons">
-        <button class="active" data-filter="all">Todos</button>
-        <button data-filter="hamburguer">Hambúrguer</button>
-        <button data-filter="porcao">Porções</button>
-        <button data-filter="bebida">Bebidas</button>
-      </div>
 
-      <div class="menu" id="menu-items">
-        <!-- Exemplo de item -->
-        <div class="menu-item" data-category="hamburguer">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="X-Burger" />
-          <div class="menu-content">
-            <h4>X-Burger</h4>
-            <p>Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
-            <div class="price">R$ 25,00</div>
-            <button onclick="addToCart('X-Burger', 25)">Adicionar</button>
-          </div>
-        </div>
+  <h1 class="text-center text-4xl font-extrabold mt-12 text-[var(--amarelo-escuro)]" style="color:#d4a017;">Cardápio Garagem 127</h1>
 
-        <div class="menu-item" data-category="hamburguer">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="X-Bacon" />
-          <div class="menu-content">
-            <h4>X-Bacon</h4>
-            <p>Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.</p>
-            <div class="price">R$ 28,00</div>
-            <button onclick="addToCart('X-Bacon', 28)">Adicionar</button>
-          </div>
-        </div>
+  <div class="menu-grid" id="menuGrid">
+    <!-- Itens do cardápio aqui pelo JS -->
+  </div>
 
-        <div class="menu-item" data-category="hamburguer">
-          <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" alt="X-Salada" />
-          <div class="menu-content">
-            <h4>X-Salada</h4>
-            <p>Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.</p>
-            <div class="price">R$ 26,00</div>
-            <button onclick="addToCart('X-Salada', 26)">Adicionar</button>
-          </div>
-        </div>
+  <!-- Botão Carrinho -->
+  <div class="cart-toggle" id="cartToggle">Carrinho (0)</div>
 
-        <div class="menu-item" data-category="porcao">
-          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" alt="Porção de Batata" />
-          <div class="menu-content">
-            <h4>Porção de Batata</h4>
-            <p>Batatas crocantes, temperadas e servidas com ketchup.</p>
-            <div class="price">R$ 18,00</div>
-            <button onclick="addToCart('Porção de Batata', 18)">Adicionar</button>
-          </div>
-        </div>
+  <!-- Painel do Carrinho -->
+  <aside class="cart" id="cart" aria-hidden="true">
+    <div class="cart-header">
+      <h2>Carrinho</h2>
+      <button class="close-cart" id="closeCartBtn" aria-label="Fechar carrinho">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- itens adicionados aparecem aqui -->
+    </div>
+    <div class="cart-total" id="cartTotal">Total: R$ 0,00</div>
 
-        <div class="menu-item" data-category="bebida">
-          <img src="https://images.unsplash.com/photo-1524594157364-32d1e4a3f8e2" alt="Refrigerante" />
-          <div class="menu-content">
-            <h4>Refrigerante</h4>
-            <p>Refrigerante gelado de 350ml.</p>
-            <div class="price">R$ 7,00</div>
-            <button onclick="addToCart('Refrigerante', 7)">Adicionar</button>
-          </div>
-        </div>
-
-        <div class="menu-item" data-category="bebida">
-          <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187" alt="Suco Natural" />
-          <div class="menu-content">
-            <h4>Suco Natural</h4>
-            <p>Suco feito na hora, natural e refrescante.</p>
-            <div class="price">R$ 9,00</div>
-            <button onclick="addToCart('Suco Natural', 9)">Adicionar</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Botão para abrir/fechar carrinho -->
-  <button id="cart-toggle-btn">Carrinho (0)</button>
-
-  <!-- Carrinho lateral -->
-  <aside id="cart" aria-hidden="true">
-    <h3>Seu Pedido</h3>
-    <div id="cart-items"></div>
-
-    <textarea id="observations" placeholder="Observações para o pedido..."></textarea>
-
-    <div id="cart-total">Total: R$ 0,00</div>
-    <button id="checkout-btn" onclick="finalizarPedido()">Finalizar Pedido</button>
+    <textarea id="observations" placeholder="Adicionar observações ao pedido..."></textarea>
+    <button id="finalize-btn">Finalizar Pedido</button>
   </aside>
 
   <script>
-    // Filtro de categorias
-    const filterButtons = document.querySelectorAll('.filter-buttons button');
-    const menuItems = document.querySelectorAll('.menu-item');
+    const menuItems = [
+      {
+        name: "X-Burger",
+        description: "Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.",
+        price: 23.90,
+        img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
+      },
+      {
+        name: "X-Bacon",
+        description: "Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.",
+        price: 27.50,
+        img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
+      },
+      {
+        name: "X-Salada",
+        description: "Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.",
+        price: 22.00,
+        img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add"
+      },
+      {
+        name: "Cheddar Burger",
+        description: "Hambúrguer suculento com cheddar derretido, cebola caramelizada e maionese especial.",
+        price: 29.90,
+        img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
+      },
+      {
+        name: "Veggie Burger",
+        description: "Hambúrguer vegetariano com mix de vegetais, queijo, alface e molho especial.",
+        price: 24.50,
+        img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add"
+      }
+    ];
 
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const category = btn.getAttribute('data-filter');
-
-        menuItems.forEach(item => {
-          if(category === 'all' || item.getAttribute('data-category') === category){
-            item.style.display = 'flex';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-      });
-    });
-
-    // Carrinho
-    const cartItemsContainer = document.getElementById('cart-items');
-    const cartTotalElem = document.getElementById('cart-total');
-    const observationsElem = document.getElementById('observations');
-    const cartToggleBtn = document.getElementById('cart-toggle-btn');
+    const menuGrid = document.getElementById('menuGrid');
+    const cartToggle = document.getElementById('cartToggle');
     const cart = document.getElementById('cart');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const cartItemsElem = document.getElementById('cartItems');
+    const cartTotalElem = document.getElementById('cartTotal');
+    const observationsElem = document.getElementById('observations');
+    const finalizeBtn = document.getElementById('finalize-btn');
 
     let cartData = [];
 
+    // Renderiza itens do cardápio
+    function renderMenu() {
+      menuGrid.innerHTML = '';
+      menuItems.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('menu-item');
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" />
+          <div class="menu-item-content">
+            <h4>${item.name}</h4>
+            <p>${item.description}</p>
+            <div class="menu-item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</div>
+            <button class="btn-add" aria-label="Adicionar ${item.name} ao carrinho">Adicionar</button>
+          </div>
+        `;
+        div.querySelector('button').addEventListener('click', () => {
+          addToCart(item.name, item.price);
+        });
+        menuGrid.appendChild(div);
+      });
+    }
+
+    // Adiciona item ao carrinho (sem abrir ele)
     function addToCart(name, price) {
       const item = cartData.find(i => i.name === name);
       if(item){
@@ -356,66 +306,61 @@
         cartData.push({name, price, qty:1});
       }
       updateCart();
-      openCart();
+      // NÃO chama openCart() aqui para não abrir automático
     }
 
-    function removeFromCart(name) {
-      cartData = cartData.filter(i => i.name !== name);
-      updateCart();
-    }
-
-    function changeQty(name, qty) {
-      const item = cartData.find(i => i.name === name);
-      if(item){
-        item.qty = qty;
-        if(item.qty <= 0){
-          removeFromCart(name);
-        } else {
-          updateCart();
-        }
-      }
-    }
-
+    // Atualiza exibição do carrinho
     function updateCart() {
-      cartItemsContainer.innerHTML = '';
-      let total = 0;
-
+      cartItemsElem.innerHTML = '';
+      if(cartData.length === 0){
+        cartItemsElem.innerHTML = '<p style="color:#777; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
+        cartTotalElem.textContent = 'Total: R$ 0,00';
+        cartToggle.textContent = 'Carrinho (0)';
+        return;
+      }
       cartData.forEach(item => {
-        total += item.price * item.qty;
-
         const div = document.createElement('div');
-        div.className = 'cart-item';
-
+        div.classList.add('cart-item');
         div.innerHTML = `
-          <span>${item.name}</span>
-          <div>
-            <button onclick="changeQty('${item.name}', ${item.qty - 1})">−</button>
-            <span class="item-qty">${item.qty}</span>
-            <button onclick="changeQty('${item.name}', ${item.qty + 1})">+</button>
-            <button onclick="removeFromCart('${item.name}')" title="Remover">×</button>
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" aria-label="Diminuir quantidade">-</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn" aria-label="Aumentar quantidade">+</button>
           </div>
+          <div class="cart-item-price">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</div>
         `;
 
-        cartItemsContainer.appendChild(div);
+        const btns = div.querySelectorAll('.qty-btn');
+        btns[0].addEventListener('click', () => {
+          if(item.qty > 1){
+            item.qty--;
+          } else {
+            // remove item se qtd for 1 e apertar diminuir
+            cartData = cartData.filter(i => i.name !== item.name);
+          }
+          updateCart();
+        });
+        btns[1].addEventListener('click', () => {
+          item.qty++;
+          updateCart();
+        });
+
+        cartItemsElem.appendChild(div);
       });
 
-      cartTotalElem.textContent = 'Total: R$ ' + total.toFixed(2).replace('.', ',');
-
-      if(cartData.length === 0){
-        cartItemsContainer.innerHTML = '<p style="color:#777; font-style:italic;">Seu carrinho está vazio.</p>';
-      }
-
-      cartToggleBtn.textContent = `Carrinho (${cartData.reduce((acc,i) => acc + i.qty,0)})`;
+      const total = cartData.reduce((acc,i) => acc + i.price * i.qty, 0);
+      cartTotalElem.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+      cartToggle.textContent = `Carrinho (${cartData.reduce((acc,i) => acc + i.qty,0)})`;
     }
 
-    function finalizarPedido() {
-      if(cartData.length === 0) {
+    // Finalizar pedido
+    function finalizeOrder() {
+      if(cartData.length === 0){
         alert('Adicione algum item antes de finalizar o pedido.');
         return;
       }
-
       const observations = observationsElem.value.trim();
-
       let resumo = 'Resumo do Pedido:\n\n';
       cartData.forEach(i => {
         resumo += `${i.qty}x ${i.name} - R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}\n`;
@@ -443,7 +388,7 @@
       cart.setAttribute('aria-hidden', 'true');
     }
 
-    cartToggleBtn.addEventListener('click', () => {
+    cartToggle.addEventListener('click', () => {
       if(cart.classList.contains('open')){
         closeCart();
       } else {
@@ -451,7 +396,11 @@
       }
     });
 
-    // Inicializa carrinho vazio
+    closeCartBtn.addEventListener('click', closeCart);
+    finalizeBtn.addEventListener('click', finalizeOrder);
+
+    // Inicializa
+    renderMenu();
     updateCart();
   </script>
 </body>
