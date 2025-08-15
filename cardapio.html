@@ -22,7 +22,7 @@
   <!-- Logo + Título -->
   <header class="flex flex-col items-center mt-8 mb-6">
     <img src="logo.png" alt="Logo Garagem 127" class="mb-4" style="max-width: 180px;" />
-    <h1 class="text-3xl font-extrabold text-[var(--verde)]">Cardápio</h1>
+    <h1 class="text-3xl font-extrabold text-white">Cardápio</h1>
   </header>
 
   <!-- Filtros -->
@@ -46,15 +46,15 @@
   <!-- Carrinho -->
   <aside id="cart" class="fixed top-0 right-0 w-full md:w-96 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-50">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-bold">Seu Pedido</h2>
+      <h2 class="text-2xl font-bold text-white">Seu Pedido</h2>
       <button id="close-cart" class="text-gray-400 hover:text-white text-xl">&times;</button>
     </div>
     <ul id="cart-items" class="space-y-2 mb-4"></ul>
     <div class="mb-4">
-      <label for="obs" class="block text-sm mb-1">Observações:</label>
+      <label for="obs" class="block text-sm mb-1 text-white">Observações:</label>
       <textarea id="obs" rows="3" class="w-full p-2 rounded bg-gray-800 text-white"></textarea>
     </div>
-    <div class="font-bold text-lg mb-4">Total: R$ <span id="cart-total">0.00</span></div>
+    <div class="font-bold text-lg mb-4 text-white">Total: R$ <span id="cart-total">0.00</span></div>
     <button id="finalize" class="w-full bg-[var(--verde)] text-white py-3 rounded font-bold hover:bg-green-700">Finalizar Pedido</button>
   </aside>
 
@@ -91,7 +91,7 @@
         card.innerHTML = `
           <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover">
           <div class="p-4">
-            <h3 class="text-xl font-bold text-[var(--verde)]">${item.nome}</h3>
+            <h3 class="text-xl font-bold text-white">${item.nome}</h3>
             <p class="text-sm mb-2">R$ ${item.preco.toFixed(2)}</p>
             <button onclick="addToCart(${item.id})" class="mt-2 bg-[var(--verde)] text-white px-4 py-2 rounded font-bold hover:bg-green-700">Adicionar</button>
           </div>
@@ -120,12 +120,12 @@
         total += item.preco * item.qtd;
         cartItems.innerHTML += `
           <li class="flex justify-between items-center space-x-2">
-            <span class="flex-1">${item.nome} x${item.qtd}</span>
+            <span class="flex-1 text-white">${item.nome} x${item.qtd}</span>
             <div class="flex items-center space-x-1">
               <button onclick="decreaseQty(${item.id})" class="bg-red-600 hover:bg-red-700 px-2 rounded text-white font-bold">-</button>
-              <button onclick="increaseQty(${item.id})" class="bg-green-700 hover:bg-green-800 px-2 rounded text-white font-bold">+</button>
+              <button onclick="increaseQty(${item.id})" class="bg-[var(--verde)] hover:bg-green-700 px-2 rounded text-white font-bold">+</button>
             </div>
-            <span>R$ ${(item.preco * item.qtd).toFixed(2)}</span>
+            <span class="text-white">R$ ${(item.preco * item.qtd).toFixed(2)}</span>
           </li>
         `;
       });
