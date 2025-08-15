@@ -12,6 +12,54 @@
       --verde: #1a3d2f;
       --amarelo-escuro: #d4a017;
     }
+
+    /* Navbar shadow on scroll */
+    header.scrolled {
+      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.6);
+      background-color: rgba(0, 0, 0, 0.8) !important;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Card hover 3D effect */
+    .menu-item {
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+      box-shadow: 0 15px 25px rgba(212, 160, 23, 0.5);
+    }
+
+    /* Botões pulse */
+    .pulse {
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(212, 160, 23, 0.7);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(212, 160, 23, 1);
+      }
+    }
+
+    /* Botões flutuantes bounce */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .floating-bounce {
+      animation: bounce 3s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="bg-black text-white font-sans">
@@ -50,7 +98,7 @@
       <h3 class="text-4xl font-bold text-center mb-12 text-white">TOP 3 MAIS PEDIDOS</h3>
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Item 1 -->
-        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
+        <div class="bg-black rounded-xl overflow-hidden shadow-lg menu-item">
           <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Burger" />
           <div class="p-6">
             <h4 class="text-2xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Burger</h4>
@@ -58,7 +106,7 @@
           </div>
         </div>
         <!-- Item 2 -->
-        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
+        <div class="bg-black rounded-xl overflow-hidden shadow-lg menu-item">
           <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Bacon" />
           <div class="p-6">
             <h4 class="text-2xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Bacon</h4>
@@ -66,7 +114,7 @@
           </div>
         </div>
         <!-- Item 3 -->
-        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
+        <div class="bg-black rounded-xl overflow-hidden shadow-lg menu-item">
           <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" class="w-full h-56 object-cover" alt="X-Salada" />
           <div class="p-6">
             <h4 class="text-2xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Salada</h4>
@@ -101,8 +149,6 @@
 
   <!-- Mapa e botão Como Chegar -->
   <section id="mapa" class="max-w-6xl mx-auto px-4 py-10">
-    <h3 class="text-3xl font-bold mb-6 text-white text-center">Nossa Localização</h3>
-    
     <div class="w-full h-72 md:h-96 rounded-lg overflow-hidden mb-6 shadow-lg">
       <iframe 
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7304.682374351759!2d-49.333756199999996!3d-25.4359176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dd43e0e42c8369%3A0x323c6eb5a931a8bc!2sRua%20Antonio%20Johnson%2C%203733%20-%20Alto%20Pinheiro%2C%20Almirante%20Tamandar%C3%A9%20-%20PR%2C%2082560-000!5e0!3m2!1spt-BR!2sbr!4v1692038901727!5m2!1spt-BR!2sbr" 
@@ -134,25 +180,81 @@
     // Navbar deslizando de cima
     gsap.from("header", { y: -100, opacity: 0, duration: 1, ease: "power3.out" });
 
-    // Título e texto do Hero
-    gsap.from("#home h2", { y: 50, opacity: 0, duration: 1, delay: 0.5 });
-    gsap.from("#home p", { y: 50, opacity: 0, duration: 1, delay: 0.8 });
+    // Navbar shadow on scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
 
-    // Botão do Hero “Ver Cardápio”
-    gsap.from("#home a", { scale: 0, opacity: 0, duration: 0.8, delay: 1.1, ease: "back.out(1.7)" });
+    // Hero title zoom + fade in
+    gsap.from("#home h2", { 
+      y: 50, 
+      opacity: 0, 
+      duration: 1.2, 
+      scale: 0.95, 
+      delay: 0.5, 
+      ease: "power2.out" 
+    });
 
-    // Cardápio (cada item aparece um por um)
+    // Hero paragraph fade in with slight move
+    gsap.from("#home p", { 
+      y: 30, 
+      opacity: 0, 
+      duration: 1, 
+      delay: 0.8, 
+      ease: "power2.out" 
+    });
+
+    // Hero button pulse effect after appear
+    gsap.from("#home a", { 
+      scale: 0, 
+      opacity: 0, 
+      duration: 0.8, 
+      delay: 1.1, 
+      ease: "back.out(1.7)",
+      onComplete: () => {
+        document.querySelector("#home a").classList.add('pulse');
+      }
+    });
+
+    // Cardápio fade and slide on scroll + removed previous opacity set, use gsap
     gsap.utils.toArray(".menu-item").forEach((item, i) => {
-      gsap.to(item, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: i * 0.3 + 1.5,
+      gsap.fromTo(item, 
+        {opacity: 0, y: 50},
+        {
+          opacity: 1, 
+          y: 0,
+          duration: 0.8,
+          delay: i * 0.3 + 1.5,
+          scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+          }
+        });
+    });
+
+    // Fade in for section text paragraphs on scroll
+    gsap.utils.toArray("section p, section h3, section h4").forEach(el => {
+      gsap.from(el, {
         scrollTrigger: {
-          trigger: item,
-          start: "top 80%",
-        }
+          trigger: el,
+          start: "top 90%",
+          toggleActions: "play none none none"
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power2.out"
       });
+    });
+
+    // Animate floating buttons bounce
+    document.querySelectorAll('a[href*="wa.me"], a[href*="instagram.com"]').forEach(btn => {
+      btn.classList.add('floating-bounce');
     });
 
     // Scroll suave para navegação
@@ -164,53 +266,23 @@
     });
   </script>
 
-<!--Botão Flutuante WhatsApp -->
-<a href="https://wa.me/5541997165785?text=Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20meu%20pedido🍔" target="_blank">
-  <img 
-    src="WhatsApp-icone.png" 
-    alt="WhatsApp" 
-    style="position: fixed; bottom: 90px; right: 20px; width: 60px; z-index: 999; cursor: pointer;"
+  <!--Botão Flutuante WhatsApp -->
+  <a href="https://wa.me/5541997165785?text=Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20um%20pedido!" 
+     target="_blank" 
+     aria-label="WhatsApp"
+     class="fixed bottom-24 right-4 z-50 bg-[var(--amarelo-escuro)] rounded-full p-4 shadow-lg hover:bg-yellow-500 transition"
   >
-</a>
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" class="w-8 h-8" />
+  </a>
 
-<!--Botão Flutuante Instagram -->
-<a href="https://www.instagram.com/garagem127ofc/" target="_blank">
-  <img 
-    src="instagram-icone.png" 
-    alt="Instagram" 
-    style="position: fixed; bottom: 20px; right: 20px; width: 60px; z-index: 999; cursor: pointer;"
+  <!--Botão Flutuante Instagram -->
+  <a href="https://instagram.com/garagem127hamburgueria" 
+     target="_blank" 
+     aria-label="Instagram"
+     class="fixed bottom-6 right-4 z-50 bg-[var(--amarelo-escuro)] rounded-full p-4 shadow-lg hover:bg-yellow-500 transition"
   >
-</a>
-
-<style>
-.whatsapp-float {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25d366;
-    color: white;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 30px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s;
-}
-
-.whatsapp-float:hover {
-    transform: scale(1.1);
-}
-
-.whatsapp-float img {
-    width: 35px;
-    height: 35px;
-}
-</style>
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram" class="w-8 h-8" />
+  </a>
 
 </body>
 </html>
