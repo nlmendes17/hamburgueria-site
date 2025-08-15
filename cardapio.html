@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cardápio - Garagem 127</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Garagem 127 - Cardápio com Carrinho</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -12,95 +12,268 @@
       --verde: #1a3d2f;
       --amarelo-escuro: #d4a017;
     }
+    /* Scrollbar estilizado para o carrinho */
+    #cart {
+      scrollbar-width: thin;
+      scrollbar-color: var(--amarelo-escuro) transparent;
+    }
+    #cart::-webkit-scrollbar {
+      width: 6px;
+    }
+    #cart::-webkit-scrollbar-thumb {
+      background-color: var(--amarelo-escuro);
+      border-radius: 10px;
+    }
   </style>
 </head>
-<body class="bg-black text-white font-sans">
+<body class="bg-black text-white font-sans flex min-h-screen">
 
-  <!-- Header -->
-  <header class="text-center py-6 bg-[var(--verde)]">
-    <h1 class="text-4xl font-bold text-[var(--amarelo-escuro)]">Cardápio 🍔 Garagem 127</h1>
-    <p class="text-white mt-2">Escolha seu lanche favorito e peça direto no WhatsApp!</p>
-  </header>
+  <!-- Cardápio principal -->
+  <main class="flex-grow p-6 max-w-5xl mx-auto">
+    <h1 class="text-[var(--amarelo-escuro)] text-4xl font-bold mb-8 text-center">Garagem 127 - Cardápio</h1>
 
-  <!-- Filtros -->
-  <section class="flex flex-wrap justify-center gap-4 mt-6 px-4">
-    <button onclick="filterItems('todos')" class="bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded hover:bg-yellow-500">Todos</button>
-    <button onclick="filterItems('lanches')" class="bg-white text-[var(--verde)] px-4 py-2 rounded hover:bg-gray-200">Lanches</button>
-    <button onclick="filterItems('combos')" class="bg-white text-[var(--verde)] px-4 py-2 rounded hover:bg-gray-200">Combos</button>
-    <button onclick="filterItems('porcoes')" class="bg-white text-[var(--verde)] px-4 py-2 rounded hover:bg-gray-200">Porções</button>
-    <button onclick="filterItems('bebidas')" class="bg-white text-[var(--verde)] px-4 py-2 rounded hover:bg-gray-200">Bebidas</button>
-  </section>
+    <section id="menu-list" class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-  <!-- Lista de Lanches -->
-  <section class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto p-6" id="menu-list">
-    
-    <!-- Exemplo de card -->
-    <div class="menu-card lanches bg-zinc-900 rounded-xl overflow-hidden shadow-lg p-4 transform transition hover:scale-105">
-      <img src="burger.jpg" alt="X-Burger" class="w-full h-40 object-cover rounded" />
-      <div class="mt-4">
-        <h3 class="text-xl font-bold text-[var(--amarelo-escuro)]">X-Burger</h3>
-        <p class="text-sm text-gray-300">Pão, maionese, hambúrguer (90g), queijo</p>
-        <p class="text-lg font-bold mt-2">R$12,00</p>
-        <a href="https://wa.me/5541997165785?text=Quero%20um%20X-Burger%20por%20R$12,00%20🍔" target="_blank" class="inline-block mt-3 bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded-full font-bold hover:bg-yellow-500 transition">
-          Pedir no WhatsApp
-        </a>
+      <!-- Exemplo de item -->
+      <div class="bg-[var(--verde)] rounded-xl shadow-lg p-4 flex flex-col">
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="X-Burger" class="rounded-lg object-cover h-40 mb-4" />
+        <h3 class="text-xl font-semibold mb-1 text-[var(--amarelo-escuro)]">X-Burger</h3>
+        <p class="flex-grow mb-3 text-sm">Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-lg">R$ 28,00</span>
+          <button class="btn-add bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded hover:bg-yellow-500 transition" data-id="xb" data-name="X-Burger" data-price="28.00">Adicionar</button>
+        </div>
       </div>
+
+      <div class="bg-[var(--verde)] rounded-xl shadow-lg p-4 flex flex-col">
+        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" alt="X-Salada" class="rounded-lg object-cover h-40 mb-4" />
+        <h3 class="text-xl font-semibold mb-1 text-[var(--amarelo-escuro)]">X-Salada</h3>
+        <p class="flex-grow mb-3 text-sm">Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.</p>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-lg">R$ 26,00</span>
+          <button class="btn-add bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded hover:bg-yellow-500 transition" data-id="xs" data-name="X-Salada" data-price="26.00">Adicionar</button>
+        </div>
+      </div>
+
+      <div class="bg-[var(--verde)] rounded-xl shadow-lg p-4 flex flex-col">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd" alt="Combo Hambúrguer + Fritas" class="rounded-lg object-cover h-40 mb-4" />
+        <h3 class="text-xl font-semibold mb-1 text-[var(--amarelo-escuro)]">Combo Hambúrguer + Fritas</h3>
+        <p class="flex-grow mb-3 text-sm">Hambúrguer artesanal acompanhado de batatas fritas crocantes.</p>
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-lg">R$ 35,00</span>
+          <button class="btn-add bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded hover:bg-yellow-500 transition" data-id="combo" data-name="Combo Hambúrguer + Fritas" data-price="35.00">Adicionar</button>
+        </div>
+      </div>
+
+      <!-- Adicione mais itens seguindo esse padrão -->
+
+    </section>
+  </main>
+
+  <!-- Carrinho lateral -->
+  <aside id="cart" class="w-80 bg-black bg-opacity-90 p-6 fixed right-0 top-0 bottom-0 shadow-xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-[var(--amarelo-escuro)] text-2xl font-bold">Carrinho</h2>
+      <button id="close-cart" class="text-white text-xl font-bold hover:text-[var(--amarelo-escuro)]">&times;</button>
     </div>
-
-    <!-- Replique esse bloco acima com outros itens trocando categoria, nome, preço e imagem -->
-    
-    <!-- EXEMPLOS DE OUTRAS CATEGORIAS -->
-    <div class="menu-card combos bg-zinc-900 rounded-xl p-4">
-      <img src="combo.jpg" class="w-full h-40 object-cover rounded" />
-      <h3 class="text-xl font-bold text-[var(--amarelo-escuro)] mt-2">Combo Casal</h3>
-      <p class="text-sm text-gray-300">2 bacon cheddar, onion rings (450g), batata bacon cheddar (450g)</p>
-      <p class="text-lg font-bold mt-2">R$89,90</p>
-      <a href="https://wa.me/5541997165785?text=Quero%20o%20Combo%20Casal%20por%20R$89,90%20🍟" target="_blank" class="inline-block mt-3 bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded-full font-bold">
-        Pedir no WhatsApp
-      </a>
+    <div id="cart-items" class="flex-grow overflow-y-auto space-y-4"></div>
+    <div class="mt-6 border-t border-[var(--amarelo-escuro)] pt-4">
+      <label class="block mb-2 text-sm">Observação geral:</label>
+      <textarea id="order-note" rows="3" class="w-full p-2 rounded bg-gray-900 text-white resize-none" placeholder="Ex: sem cebola, sem maionese..."></textarea>
     </div>
-
-    <div class="menu-card porcoes bg-zinc-900 rounded-xl p-4">
-      <img src="porcao.jpg" class="w-full h-40 object-cover rounded" />
-      <h3 class="text-xl font-bold text-[var(--amarelo-escuro)] mt-2">Batata Bacon Cheddar</h3>
-      <p class="text-sm text-gray-300">500g de batata com bacon e cheddar</p>
-      <p class="text-lg font-bold mt-2">R$37,90</p>
-      <a href="https://wa.me/5541997165785?text=Quero%20Batata%20Bacon%20Cheddar%20por%20R$37,90%20🍟" target="_blank" class="inline-block mt-3 bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded-full font-bold">
-        Pedir no WhatsApp
-      </a>
+    <div class="mt-4 flex justify-between items-center">
+      <button id="clear-cart" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-bold text-white transition">Limpar carrinho</button>
+      <button id="finalize-order" class="bg-[var(--amarelo-escuro)] hover:bg-yellow-500 px-4 py-2 rounded font-bold text-black transition">Finalizar pedido</button>
     </div>
+  </aside>
 
-    <!-- Adicione mais itens aqui com as categorias: lanches, combos, porcoes, bebidas -->
+  <!-- Botão para abrir carrinho -->
+  <button id="open-cart" 
+    class="fixed bottom-6 right-6 bg-[var(--amarelo-escuro)] rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-yellow-500 transition z-50"
+    title="Abrir carrinho">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m4-9v9m1-14h2a2 2 0 012 2v1a2 2 0 01-2 2h-3m-7 0H4" />
+    </svg>
+  </button>
 
-  </section>
-
-  <!-- Script de Filtro -->
   <script>
-    function filterItems(category) {
-      const cards = document.querySelectorAll('.menu-card');
-      cards.forEach(card => {
-        if (category === 'todos' || card.classList.contains(category)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+    // Variáveis globais
+    let cart = JSON.parse(localStorage.getItem('garagem127-cart')) || [];
+    const cartItemsContainer = document.getElementById('cart-items');
+    const orderNote = document.getElementById('order-note');
+
+    // Função pra salvar no localStorage
+    function saveCart() {
+      localStorage.setItem('garagem127-cart', JSON.stringify(cart));
+      localStorage.setItem('garagem127-note', orderNote.value);
     }
 
-    // GSAP animações ao entrar na tela
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray('.menu-card').forEach((item, i) => {
-      gsap.from(item, {
-        opacity: 0,
-        y: 50,
-        duration: 0.6,
-        delay: i * 0.1,
-        scrollTrigger: {
-          trigger: item,
-          start: "top 90%",
+    // Função pra renderizar o carrinho
+    function renderCart() {
+      cartItemsContainer.innerHTML = '';
+      if(cart.length === 0){
+        cartItemsContainer.innerHTML = '<p class="text-center text-gray-400">Carrinho vazio.</p>';
+        return;
+      }
+      cart.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'bg-[var(--verde)] rounded p-3 flex flex-col gap-2';
+        div.innerHTML = `
+          <div class="flex justify-between items-center">
+            <h4 class="font-semibold text-lg text-[var(--amarelo-escuro)]">${item.name}</h4>
+            <button class="text-red-600 font-bold text-xl remove-item" data-id="${item.id}" title="Remover item">&times;</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="btn-qty" data-id="${item.id}" data-op="dec" aria-label="Diminuir quantidade">-</button>
+            <span class="font-bold">${item.quantity}</span>
+            <button class="btn-qty" data-id="${item.id}" data-op="inc" aria-label="Aumentar quantidade">+</button>
+            <span class="ml-auto font-bold">R$ ${(item.price * item.quantity).toFixed(2)}</span>
+          </div>
+          <textarea class="w-full p-1 rounded bg-gray-900 text-white text-sm" placeholder="Observação para este item..." data-id="${item.id}">${item.note || ''}</textarea>
+        `;
+        cartItemsContainer.appendChild(div);
+      });
+      updateTotal();
+    }
+
+    // Atualiza o total no final do carrinho
+    function updateTotal() {
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+      });
+      const totalEl = document.getElementById('cart-total');
+      if(!totalEl){
+        const div = document.createElement('div');
+        div.id = 'cart-total';
+        div.className = 'mt-4 text-right font-bold text-[var(--amarelo-escuro)] text-xl';
+        div.textContent = `Total: R$ ${total.toFixed(2)}`;
+        cartItemsContainer.parentNode.appendChild(div);
+      } else {
+        totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+      }
+    }
+
+    // Adicionar item ao carrinho
+    document.querySelectorAll('.btn-add').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const name = btn.dataset.name;
+        const price = parseFloat(btn.dataset.price);
+        const itemIndex = cart.findIndex(i => i.id === id);
+        if(itemIndex > -1){
+          if(cart[itemIndex].quantity < 10){
+            cart[itemIndex].quantity++;
+          } else {
+            alert('Quantidade máxima por item: 10');
+          }
+        } else {
+          cart.push({id, name, price, quantity: 1});
         }
+        saveCart();
+        renderCart();
+        openCart();
+        animateAddButton(btn);
       });
     });
+
+    // Animação botão adicionar
+    function animateAddButton(btn) {
+      gsap.fromTo(btn, {scale: 1}, {scale: 1.2, duration: 0.15, yoyo: true, repeat: 1});
+    }
+
+    // Manipulação do carrinho: aumentar, diminuir, remover e editar observações
+    cartItemsContainer.addEventListener('click', (e) => {
+      if(e.target.classList.contains('btn-qty')){
+        const id = e.target.dataset.id;
+        const op = e.target.dataset.op;
+        const itemIndex = cart.findIndex(i => i.id === id);
+        if(itemIndex > -1){
+          if(op === 'inc' && cart[itemIndex].quantity < 10){
+            cart[itemIndex].quantity++;
+          } else if(op === 'dec' && cart[itemIndex].quantity > 1){
+            cart[itemIndex].quantity--;
+          }
+          saveCart();
+          renderCart();
+        }
+      } else if(e.target.classList.contains('remove-item')){
+        const id = e.target.dataset.id;
+        cart = cart.filter(i => i.id !== id);
+        saveCart();
+        renderCart();
+      }
+    });
+
+    // Atualiza nota do item individualmente
+    cartItemsContainer.addEventListener('input', (e) => {
+      if(e.target.tagName.toLowerCase() === 'textarea' && e.target.dataset.id){
+        const id = e.target.dataset.id;
+        const item = cart.find(i => i.id === id);
+        if(item){
+          item.note = e.target.value;
+          saveCart();
+        }
+      }
+    });
+
+    // Observação geral
+    orderNote.value = localStorage.getItem('garagem127-note') || '';
+    orderNote.addEventListener('input', () => {
+      saveCart();
+    });
+
+    // Botões abrir e fechar carrinho
+    const cartAside = document.getElementById('cart');
+    const openBtn = document.getElementById('open-cart');
+    const closeBtn = document.getElementById('close-cart');
+
+    function openCart(){
+      cartAside.style.transform = 'translateX(0)';
+    }
+    function closeCart(){
+      cartAside.style.transform = 'translateX(100%)';
+    }
+
+    openBtn.addEventListener('click', openCart);
+    closeBtn.addEventListener('click', closeCart);
+
+    // Limpar carrinho
+    document.getElementById('clear-cart').addEventListener('click', () => {
+      if(confirm('Tem certeza que quer limpar o carrinho?')){
+        cart = [];
+        orderNote.value = '';
+        saveCart();
+        renderCart();
+      }
+    });
+
+    // Finalizar pedido via WhatsApp
+    document.getElementById('finalize-order').addEventListener('click', () => {
+      if(cart.length === 0){
+        alert('O carrinho está vazio!');
+        return;
+      }
+      let message = 'Olá! Gostaria de fazer o pedido:%0A';
+      cart.forEach(item => {
+        message += `- ${item.name} (x${item.quantity}) - R$ ${(item.price * item.quantity).toFixed(2)}`;
+        if(item.note && item.note.trim() !== ''){
+          message += ` (Obs: ${item.note.trim()})`;
+        }
+        message += '%0A';
+      });
+      if(orderNote.value.trim() !== ''){
+        message += `%0ANota geral: ${orderNote.value.trim()}%0A`;
+      }
+      const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      message += `%0ATotal: R$ ${total.toFixed(2)}%0AObrigado!`;
+      const whatsappUrl = `https://wa.me/5541997165785?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    });
+
+    // Inicializa o carrinho ao carregar a página
+    renderCart();
+
   </script>
 
 </body>
