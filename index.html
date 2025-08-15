@@ -100,6 +100,34 @@
     </div>
   </section>
 
+  <!-- Mapa e botão Como Chegar -->
+  <section id="mapa" class="max-w-6xl mx-auto px-4 py-10">
+    <h3 class="text-3xl font-bold mb-6 text-white text-center">Nossa Localização</h3>
+    
+    <div class="w-full h-72 md:h-96 rounded-lg overflow-hidden mb-6 shadow-lg">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7304.682374351759!2d-49.333756199999996!3d-25.4359176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dd43e0e42c8369%3A0x323c6eb5a931a8bc!2sRua%20Antonio%20Johnson%2C%203733%20-%20Alto%20Pinheiro%2C%20Almirante%20Tamandar%C3%A9%20-%20PR%2C%2082560-000!5e0!3m2!1spt-BR!2sbr!4v1692038901727!5m2!1spt-BR!2sbr" 
+        width="100%" 
+        height="100%" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Mapa Garagem 127"
+      ></iframe>
+    </div>
+
+    <div class="text-center">
+      <a 
+        href="https://www.google.com/maps/dir/?api=1&destination=Rua+Antonio+Johnson,+3733,+Alto+Pinheiro,+Almirante+Tamandaré,+PR" 
+        target="_blank" 
+        class="inline-block bg-[var(--amarelo-escuro)] text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition"
+      >
+        Como Chegar
+      </a>
+    </div>
+  </section>
+
   <!-- Scripts de Animação -->
   <script>
     gsap.registerPlugin(ScrollTrigger);
@@ -155,7 +183,6 @@
   >
 </a>
 
-
 <style>
 .whatsapp-float {
     position: fixed;
@@ -185,7 +212,6 @@
     height: 35px;
 }
 </style>
-
 
 </body>
 </html>
