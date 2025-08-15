@@ -27,10 +27,10 @@
 
   <!-- Filtros -->
   <div class="flex justify-center gap-4 mb-6">
-    <button class="filter-btn bg-[var(--verde)] text-white font-bold px-4 py-2 rounded" data-category="all">Todos</button>
-    <button class="filter-btn bg-gray-700 px-4 py-2 rounded text-white" data-category="lanches">Lanches</button>
-    <button class="filter-btn bg-gray-700 px-4 py-2 rounded text-white" data-category="combos">Combos</button>
-    <button class="filter-btn bg-gray-700 px-4 py-2 rounded text-white" data-category="bebidas">Bebidas</button>
+    <button class="filter-btn bg-black text-white font-bold px-4 py-2 rounded" data-category="all">Todos</button>
+    <button class="filter-btn bg-black text-white px-4 py-2 rounded" data-category="lanches">Lanches</button>
+    <button class="filter-btn bg-black text-white px-4 py-2 rounded" data-category="combos">Combos</button>
+    <button class="filter-btn bg-black text-white px-4 py-2 rounded" data-category="bebidas">Bebidas</button>
   </div>
 
   <!-- Cardápio -->
@@ -148,7 +148,7 @@
         if (carrinho[itemIndex].qtd > 1) {
           carrinho[itemIndex].qtd--;
         } else {
-          carrinho.splice(itemIndex, 1); // Remove do carrinho se qtd chegar a 0
+          carrinho.splice(itemIndex, 1);
         }
         updateCart();
       }
@@ -167,7 +167,7 @@
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => {
           b.classList.remove('bg-[var(--verde)]', 'text-white');
-          b.classList.add('bg-gray-700', 'text-white');
+          b.classList.add('bg-black', 'text-white');
         });
         btn.classList.add('bg-[var(--verde)]', 'text-white');
         renderMenu(btn.dataset.category);
