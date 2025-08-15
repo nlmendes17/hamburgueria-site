@@ -10,14 +10,155 @@
       --verde: #1a3d2f;
       --amarelo-escuro: #d4a017;
     }
+
     body {
       background-color: #000;
       color: white;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Botões filtro */
+    .filter-btn {
+      background-color: #000;
+      color: white;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.6);
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem; /* tailwind rounded */
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid var(--verde);
+      user-select: none;
+    }
+    .filter-btn:hover {
+      filter: brightness(1.15);
+      transform: scale(1.05);
+    }
+    .filter-btn:active {
+      transform: scale(0.98);
     }
     .bg-verde {
-      background-color: #1a3d2f !important;
-      color: white !important;
+      background-color: var(--verde) !important;
+      color: var(--amarelo-escuro) !important;
+      box-shadow: 0 0 10px var(--verde);
+      border-color: var(--verde) !important;
+    }
+
+    /* Botão adicionar */
+    button.mt-2 {
+      box-shadow: 0 4px 8px rgba(26,61,47,0.6);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    button.mt-2:hover {
+      background-color: #14532d; /* verde mais escuro no hover */
+      transform: scale(1.05);
+    }
+    button.mt-2:active {
+      transform: scale(0.98);
+    }
+
+    /* Botão carrinho */
+    #cart-toggle {
+      box-shadow: 0 6px 15px rgba(26, 61, 47, 0.9);
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+    #cart-toggle:hover {
+      background-color: #14532d;
+      transform: scale(1.07);
+    }
+    #cart-toggle:active {
+      transform: scale(0.95);
+    }
+
+    /* Carrinho */
+    #cart {
+      box-shadow: -4px 0 15px rgba(26, 61, 47, 0.8);
+      background-color: #111; /* suaviza um pouco do preto */
+    }
+
+    /* Botões + e - no carrinho */
+    #cart-items button {
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.5);
+      cursor: pointer;
+      background-color: var(--verde);
+      color: var(--amarelo-escuro);
+      font-weight: bold;
+      padding: 0 8px;
+      border-radius: 0.375rem;
+      border: none;
+      margin-left: 6px;
+      user-select: none;
+    }
+    #cart-items button:hover {
+      background-color: #14532d;
+      transform: scale(1.1);
+    }
+    #cart-items button:active {
+      transform: scale(0.95);
+    }
+
+    /* Botão remover (X) */
+    .remove-btn {
+      background-color: transparent;
+      color: #d44;
+      font-weight: bold;
+      font-size: 1.25rem;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+      margin-left: 8px;
+    }
+    .remove-btn:hover {
+      color: #f55;
+    }
+
+    /* Finalizar pedido */
+    #finalize {
+      box-shadow: 0 6px 15px rgba(26, 61, 47, 0.9);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    #finalize:hover {
+      background-color: #14532d;
+      transform: scale(1.05);
+    }
+    #finalize:active {
+      transform: scale(0.98);
+    }
+
+    /* Inputs e textarea */
+    textarea#obs {
+      border: 2px solid var(--verde);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background-color: #222;
+      color: white;
+    }
+    textarea#obs:focus {
+      outline: none;
+      border-color: var(--amarelo-escuro);
+      box-shadow: 0 0 8px var(--amarelo-escuro);
+    }
+
+    /* Títulos */
+    header h1 {
+      text-shadow: 0 0 8px var(--amarelo-escuro);
+    }
+    #cart h2 {
+      text-shadow: 0 0 8px var(--verde);
+    }
+
+    /* Itens do cardápio */
+    main > div {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    main > div:hover {
+      box-shadow: 0 8px 20px rgba(26, 61, 47, 0.7);
+      transform: translateY(-6px);
     }
   </style>
 </head>
@@ -31,10 +172,10 @@
 
   <!-- Filtros -->
   <div class="flex justify-center gap-4 mb-6">
-    <button class="filter-btn bg-black text-white font-bold px-4 py-2 rounded" data-category="all">Todos</button>
-    <button class="filter-btn bg-black text-white px-4 py-2 rounded" data-category="lanches">Lanches</button>
-    <button class="filter-btn bg-black text-white px-4 py-2 rounded" data-category="combos">Combos</button>
-    <button class="filter-btn bg-black text-white px-4 py-2 rounded" data-category="bebidas">Bebidas</button>
+    <button class="filter-btn bg-verde" data-category="all">Todos</button>
+    <button class="filter-btn" data-category="lanches">Lanches</button>
+    <button class="filter-btn" data-category="combos">Combos</button>
+    <button class="filter-btn" data-category="bebidas">Bebidas</button>
   </div>
 
   <!-- Cardápio -->
@@ -43,23 +184,23 @@
   </main>
 
   <!-- Botão Carrinho -->
-  <button id="cart-toggle" class="fixed bottom-6 right-6 bg-[var(--verde)] text-white px-5 py-3 rounded-full font-bold shadow-lg z-50">
+  <button id="cart-toggle" class="fixed bottom-6 right-6 bg-verde text-yellow-700 px-5 py-3 rounded-full font-bold shadow-lg z-50">
     Carrinho 🛒
   </button>
 
   <!-- Carrinho -->
   <aside id="cart" class="fixed top-0 right-0 w-full md:w-96 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-50">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-bold text-white">Seu Pedido</h2>
+      <h2 class="text-2xl font-bold">Seu Pedido</h2>
       <button id="close-cart" class="text-gray-400 hover:text-white text-xl">&times;</button>
     </div>
     <ul id="cart-items" class="space-y-2 mb-4"></ul>
     <div class="mb-4">
-      <label for="obs" class="block text-sm mb-1 text-white">Observações:</label>
+      <label for="obs" class="block text-sm mb-1">Observações:</label>
       <textarea id="obs" rows="3" class="w-full p-2 rounded bg-gray-800 text-white"></textarea>
     </div>
-    <div class="font-bold text-lg mb-4 text-white">Total: R$ <span id="cart-total">0.00</span></div>
-    <button id="finalize" class="w-full bg-[var(--verde)] text-white py-3 rounded font-bold hover:bg-green-700">Finalizar Pedido</button>
+    <div class="font-bold text-lg mb-4">Total: R$ <span id="cart-total">0.00</span></div>
+    <button id="finalize" class="w-full bg-verde text-yellow-700 py-3 rounded font-bold hover:bg-green-800">Finalizar Pedido</button>
   </aside>
 
   <!-- Scripts -->
@@ -95,9 +236,9 @@
         card.innerHTML = `
           <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover">
           <div class="p-4">
-            <h3 class="text-xl font-bold text-white">${item.nome}</h3>
+            <h3 class="text-xl font-bold text-[var(--amarelo-escuro)]">${item.nome}</h3>
             <p class="text-sm mb-2">R$ ${item.preco.toFixed(2)}</p>
-            <button onclick="addToCart(${item.id})" class="mt-2 bg-[var(--verde)] text-white px-4 py-2 rounded font-bold hover:bg-green-700">Adicionar</button>
+            <button onclick="addToCart(${item.id})" class="mt-2 bg-verde text-yellow-700 px-4 py-2 rounded font-bold hover:bg-green-800">Adicionar</button>
           </div>
         `;
         container.appendChild(card);
@@ -116,81 +257,84 @@
       updateCart();
     }
 
-    // Atualiza o carrinho
+    // Remove do carrinho
+    function removeFromCart(id) {
+      carrinho = carrinho.filter(i => i.id !== id);
+      updateCart();
+    }
+
+    // Muda quantidade no carrinho
+    function changeQuantity(id, delta) {
+      const item = carrinho.find(i => i.id === id);
+      if (!item) return;
+      item.qtd += delta;
+      if (item.qtd < 1) item.qtd = 1;
+      updateCart();
+    }
+
+    // Atualiza o carrinho na tela
     function updateCart() {
       cartItems.innerHTML = '';
       let total = 0;
       carrinho.forEach(item => {
         total += item.preco * item.qtd;
-        cartItems.innerHTML += `
-          <li class="flex justify-between items-center space-x-2">
-            <span class="flex-1 text-white">${item.nome} x${item.qtd}</span>
-            <div class="flex items-center space-x-2">
-              <button onclick="decreaseQty(${item.id})" class="bg-gray-700 px-2 rounded text-white font-bold">-</button>
-              <button onclick="increaseQty(${item.id})" class="bg-gray-700 px-2 rounded text-white font-bold">+</button>
-              <span>R$ ${(item.preco * item.qtd).toFixed(2)}</span>
-            </div>
-          </li>
+        const li = document.createElement('li');
+        li.className = 'flex justify-between items-center bg-gray-800 p-3 rounded shadow';
+        li.innerHTML = `
+          <div>
+            <div class="font-semibold">${item.nome}</div>
+            <div>R$ ${item.preco.toFixed(2)} x ${item.qtd} = R$ ${(item.preco * item.qtd).toFixed(2)}</div>
+          </div>
+          <div class="flex items-center">
+            <button onclick="changeQuantity(${item.id}, -1)">-</button>
+            <button onclick="changeQuantity(${item.id}, 1)">+</button>
+            <button onclick="removeFromCart(${item.id})" class="remove-btn" title="Remover">&times;</button>
+          </div>
         `;
+        cartItems.appendChild(li);
       });
       cartTotal.textContent = total.toFixed(2);
     }
 
-    function increaseQty(id) {
-      const item = carrinho.find(i => i.id === id);
-      if (item) {
-        item.qtd++;
-        updateCart();
-      }
-    }
-
-    function decreaseQty(id) {
-      const item = carrinho.find(i => i.id === id);
-      if (item && item.qtd > 1) {
-        item.qtd--;
-      } else {
-        // Remove item se quantidade for 1 e o usuário diminuir
-        carrinho = carrinho.filter(i => i.id !== id);
-      }
-      updateCart();
-    }
-
-    // Abrir/Fechar carrinho
-    cartToggle.addEventListener('click', () => {
-      cart.classList.toggle('translate-x-full');
-    });
-    closeCartBtn.addEventListener('click', () => {
-      cart.classList.add('translate-x-full');
-    });
-
     // Filtros
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => {
-          b.classList.remove('bg-verde');
-          b.classList.add('bg-black', 'text-white');
-        });
-        btn.classList.remove('bg-black');
+        filterButtons.forEach(b => b.classList.remove('bg-verde'));
         btn.classList.add('bg-verde');
         renderMenu(btn.dataset.category);
       });
     });
 
-    // Finalizar pedido
-    finalizeBtn.addEventListener('click', () => {
-      const obs = obsTextarea.value.trim();
-      let texto = '📋 *Pedido Garagem 127*:%0A';
-      carrinho.forEach(item => {
-        texto += `• ${item.nome} x${item.qtd} - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
-      });
-      texto += `📝 *Observações:* ${obs ? obs : 'Nenhuma'}%0A`;
-      texto += `💰 *Total:* R$ ${cartTotal.textContent}%0A`;
-      const link = `https://wa.me/5541997165785?text=${encodeURI(texto)}`;
-      window.open(link, '_blank');
+    // Toggle carrinho
+    cartToggle.addEventListener('click', () => {
+      if (cart.classList.contains('translate-x-full')) {
+        cart.classList.remove('translate-x-full');
+      } else {
+        cart.classList.add('translate-x-full');
+      }
     });
 
-    renderMenu(); // Inicial
-  </script>
+    closeCartBtn.addEventListener('click', () => {
+      cart.classList.add('translate-x-full');
+    });
 
+    // Finalizar pedido
+    finalizeBtn.addEventListener('click', () => {
+      if (carrinho.length === 0) {
+        alert('Seu carrinho está vazio!');
+        return;
+      }
+      alert(`Pedido finalizado! Total: R$ ${cartTotal.textContent}\nObservações: ${obsTextarea.value}`);
+      carrinho = [];
+      obsTextarea.value = '';
+      updateCart();
+      cart.classList.add('translate-x-full');
+    });
+
+    // Renderiza inicialmente todos os itens
+    renderMenu();
+
+  </script>
 </body>
 </html>
