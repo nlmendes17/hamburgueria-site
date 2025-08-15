@@ -10,6 +10,8 @@
       background-color: #000; /* preto total */
       color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      overflow-x: hidden;
     }
     .container {
       display: flex;
@@ -19,7 +21,7 @@
       padding: 20px;
     }
     .menu {
-      flex: 2;
+      flex: 1 1 auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
@@ -78,18 +80,68 @@
     .menu-content button:hover {
       background-color: #facc15;
     }
-    /* Carrinho lateral */
+    /* Filtro */
+    .filter-buttons {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+    .filter-buttons button {
+      background-color: #374151; /* bg-gray-700 */
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .filter-buttons button.active,
+    .filter-buttons button:hover {
+      background-color: #d4a017;
+      color: black;
+    }
+
+    /* BOTÃO CARRINHO FIXO */
+    #cart-toggle-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background-color: #d4a017;
+      color: black;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.7);
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+    #cart-toggle-btn:hover {
+      background-color: #facc15;
+    }
+
+    /* CARRINHO LATERAL */
     #cart {
-      flex: 1;
-      background-color: #111827; /* bg-gray-900 - fundo bem escuro */
-      border-radius: 12px;
+      position: fixed;
+      top: 0;
+      right: -400px; /* escondido inicialmente */
+      width: 350px;
+      height: 100vh;
+      background-color: #111827; /* bg-gray-900 */
+      box-shadow: -4px 0 15px rgba(0,0,0,0.7);
+      border-radius: 12px 0 0 12px;
       padding: 20px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      transition: right 0.3s ease;
+      z-index: 999;
+    }
+    #cart.open {
+      right: 0;
     }
     #cart h3 {
       font-size: 1.75rem;
@@ -156,31 +208,10 @@
       cursor: pointer;
       font-size: 1.1rem;
       transition: background-color 0.3s ease;
+      width: 100%;
     }
     #checkout-btn:hover {
       background-color: #facc15;
-    }
-    /* Filtro */
-    .filter-buttons {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-    }
-    .filter-buttons button {
-      background-color: #374151; /* bg-gray-700 */
-      border: none;
-      color: white;
-      padding: 8px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-    }
-    .filter-buttons button.active,
-    .filter-buttons button:hover {
-      background-color: #d4a017;
-      color: black;
     }
     /* Scrollbar para carrinho */
     #cart-items::-webkit-scrollbar {
@@ -199,7 +230,7 @@
 <body>
   <main class="container">
     <!-- Menu e filtros -->
-    <section class="menu-section" style="flex: 2;">
+    <section class="menu-section" style="flex: 1 1 auto;">
       <div class="filter-buttons">
         <button class="active" data-filter="all">Todos</button>
         <button data-filter="hamburguer">Hambúrguer</button>
@@ -270,18 +301,21 @@
         </div>
       </div>
     </section>
-
-    <!-- Carrinho -->
-    <aside id="cart">
-      <h3>Seu Pedido</h3>
-      <div id="cart-items"></div>
-      
-      <textarea id="observations" placeholder="Observações para o pedido..."></textarea>
-      
-      <div id="cart-total">Total: R$ 0,00</div>
-      <button id="checkout-btn" onclick="finalizarPedido()">Finalizar Pedido</button>
-    </aside>
   </main>
+
+  <!-- Botão para abrir/fechar carrinho -->
+  <button id="cart-toggle-btn">Carrinho (0)</button>
+
+  <!-- Carrinho lateral -->
+  <aside id="cart" aria-hidden="true">
+    <h3>Seu Pedido</h3>
+    <div id="cart-items"></div>
+
+    <textarea id="observations" placeholder="Observações para o pedido..."></textarea>
+
+    <div id="cart-total">Total: R$ 0,00</div>
+    <button id="checkout-btn" onclick="finalizarPedido()">Finalizar Pedido</button>
+  </aside>
 
   <script>
     // Filtro de categorias
@@ -309,26 +343,29 @@
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElem = document.getElementById('cart-total');
     const observationsElem = document.getElementById('observations');
+    const cartToggleBtn = document.getElementById('cart-toggle-btn');
+    const cart = document.getElementById('cart');
 
-    let cart = [];
+    let cartData = [];
 
     function addToCart(name, price) {
-      const item = cart.find(i => i.name === name);
+      const item = cartData.find(i => i.name === name);
       if(item){
         item.qty++;
       } else {
-        cart.push({name, price, qty:1});
+        cartData.push({name, price, qty:1});
       }
       updateCart();
+      openCart();
     }
 
     function removeFromCart(name) {
-      cart = cart.filter(i => i.name !== name);
+      cartData = cartData.filter(i => i.name !== name);
       updateCart();
     }
 
     function changeQty(name, qty) {
-      const item = cart.find(i => i.name === name);
+      const item = cartData.find(i => i.name === name);
       if(item){
         item.qty = qty;
         if(item.qty <= 0){
@@ -343,7 +380,7 @@
       cartItemsContainer.innerHTML = '';
       let total = 0;
 
-      cart.forEach(item => {
+      cartData.forEach(item => {
         total += item.price * item.qty;
 
         const div = document.createElement('div');
@@ -364,26 +401,55 @@
 
       cartTotalElem.textContent = 'Total: R$ ' + total.toFixed(2).replace('.', ',');
 
-      if(cart.length === 0){
+      if(cartData.length === 0){
         cartItemsContainer.innerHTML = '<p style="color:#777; font-style:italic;">Seu carrinho está vazio.</p>';
       }
+
+      cartToggleBtn.textContent = `Carrinho (${cartData.reduce((acc,i) => acc + i.qty,0)})`;
     }
 
     function finalizarPedido() {
-      if(cart.length === 0) {
-        alert('Adicione pelo menos um item ao pedido.');
+      if(cartData.length === 0) {
+        alert('Adicione algum item antes de finalizar o pedido.');
         return;
       }
-      let mensagem = 'Olá, gostaria de fazer o pedido:\n\n';
-      cart.forEach(item => {
-        mensagem += `${item.qty} x ${item.name} - R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}\n`;
-      });
-      mensagem += `\nObservações: ${observationsElem.value || 'Nenhuma'}`;
-      mensagem += `\n\nTotal: R$ ${cart.reduce((acc, i) => acc + i.price * i.qty, 0).toFixed(2).replace('.', ',')}`;
 
-      const whatsappURL = `https://wa.me/5541997165785?text=${encodeURIComponent(mensagem)}`;
-      window.open(whatsappURL, '_blank');
+      const observations = observationsElem.value.trim();
+
+      let resumo = 'Resumo do Pedido:\n\n';
+      cartData.forEach(i => {
+        resumo += `${i.qty}x ${i.name} - R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}\n`;
+      });
+      resumo += `\nTotal: R$ ${cartData.reduce((acc,i) => acc + i.price * i.qty, 0).toFixed(2).replace('.', ',')}`;
+      if(observations) resumo += `\n\nObservações: ${observations}`;
+
+      alert(resumo);
+      // Aqui pode mandar o pedido para backend ou WhatsApp...
+
+      // Limpar carrinho após finalizar
+      cartData = [];
+      observationsElem.value = '';
+      updateCart();
+      closeCart();
     }
+
+    // Abrir e fechar carrinho
+    function openCart() {
+      cart.classList.add('open');
+      cart.setAttribute('aria-hidden', 'false');
+    }
+    function closeCart() {
+      cart.classList.remove('open');
+      cart.setAttribute('aria-hidden', 'true');
+    }
+
+    cartToggleBtn.addEventListener('click', () => {
+      if(cart.classList.contains('open')){
+        closeCart();
+      } else {
+        openCart();
+      }
+    });
 
     // Inicializa carrinho vazio
     updateCart();
