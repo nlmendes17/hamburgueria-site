@@ -12,25 +12,225 @@
       --verde: #1a3d2f;
       --amarelo-escuro: #d4a017;
     }
+
+    /* Reset para body */
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Navbar shadow on scroll */
+    header.scrolled {
+      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.6);
+      background-color: rgba(0, 0, 0, 0.85) !important;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Card hover 3D effect */
+    .menu-item {
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      perspective: 1000px;
+      will-change: transform;
+      background: #111;
+    }
+
+    .menu-item:hover {
+      box-shadow: 0 15px 35px rgba(212, 160, 23, 0.7);
+      z-index: 10;
+    }
+
+    /* Botões pulse */
+    .pulse {
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(212, 160, 23, 0.7);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(212, 160, 23, 1);
+      }
+    }
+
+    /* Botões flutuantes bounce */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .floating-bounce {
+      animation: bounce 3s ease-in-out infinite;
+    }
+
+    /* Fundo partículas */
+    #particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Neon flicker para os textos amarelos */
     .neon {
-      color: transparent;
+      color: var(--amarelo-escuro);
       text-shadow:
-        0 0 5px rgba(212, 160, 23, 0.8),
-        0 0 10px rgba(212, 160, 23, 0.7),
-        0 0 20px rgba(212, 160, 23, 0.6),
-        0 0 40px rgba(212, 160, 23, 0.5);
+        0 0 5px var(--amarelo-escuro),
+        0 0 10px var(--amarelo-escuro),
+        0 0 20px var(--amarelo-escuro),
+        0 0 40px #d4a017aa,
+        0 0 80px #d4a01788;
+      animation: flicker 3s infinite;
+    }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.7;
+      }
+    }
+
+    /* Glitch efeito para título */
+    .glitch {
+      position: relative;
+      color: var(--amarelo-escuro);
+      font-weight: 900;
+      font-size: 3.5rem;
+      letter-spacing: 4px;
+      user-select: none;
+    }
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      right: 0;
+      opacity: 0.8;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+    .glitch::before {
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+      color: #d4a017;
+      z-index: -1;
+      top: -2px;
+      left: 2px;
+      text-shadow: -2px 0 red;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+    .glitch::after {
+      animation: glitch-anim2 2s infinite linear alternate-reverse;
+      color: #d4a017;
+      z-index: -1;
+      top: 2px;
+      left: -2px;
+      text-shadow: -2px 0 blue;
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+    @keyframes glitch-anim {
+      0% {
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        transform: translate(0);
+      }
+      20% {
+        clip-path: polygon(0 0, 100% 0, 90% 45%, 0 45%);
+        transform: translate(-2px, -2px);
+      }
+      40% {
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 10% 45%);
+        transform: translate(2px, 2px);
+      }
+      60% {
+        clip-path: polygon(0 0, 90% 0, 90% 45%, 0 45%);
+        transform: translate(-1px, 1px);
+      }
+      80% {
+        clip-path: polygon(10% 0, 100% 0, 100% 45%, 0 45%);
+        transform: translate(1px, -1px);
+      }
+      100% {
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        transform: translate(0);
+      }
+    }
+    @keyframes glitch-anim2 {
+      0% {
+        clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        transform: translate(0);
+      }
+      20% {
+        clip-path: polygon(0 55%, 100% 55%, 90% 100%, 0 100%);
+        transform: translate(2px, 2px);
+      }
+      40% {
+        clip-path: polygon(0 55%, 100% 55%, 100% 100%, 10% 100%);
+        transform: translate(-2px, -2px);
+      }
+      60% {
+        clip-path: polygon(0 55%, 90% 55%, 90% 100%, 0 100%);
+        transform: translate(1px, -1px);
+      }
+      80% {
+        clip-path: polygon(10% 55%, 100% 55%, 100% 100%, 0 100%);
+        transform: translate(-1px, 1px);
+      }
+      100% {
+        clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        transform: translate(0);
+      }
+    }
+
+    /* Parallax cards */
+    .menu-item-inner {
+      will-change: transform;
+      transition: transform 0.1s ease-out;
+    }
+
+    /* Loading screen */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: var(--amarelo-escuro);
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      user-select: none;
+      animation: flicker 1.8s infinite;
     }
   </style>
 </head>
-<body class="bg-black text-white font-sans">
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">GARAGEM 127</div>
+
+  <!-- Fundo partículas -->
+  <canvas id="particles"></canvas>
 
   <!-- Navbar -->
   <header class="fixed top-0 left-0 w-full z-50 bg-black bg-opacity-60 backdrop-blur-md">
     <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
       <a href="#home" class="flex items-center space-x-2">
-        <!-- Troca o src para a logo da sua pasta -->
         <img src="logo.png" alt="Garagem 127 Logo" class="h-10 w-auto" />
-        <span class="text-2xl font-bold tracking-widest text-white">GARAGEM <span class="text-[var(--amarelo-escuro)]">127</span></span>
+        <span class="text-2xl font-bold tracking-widest text-white">
+          GARAGEM <span class="neon">127</span>
+        </span>
       </a>
       <nav class="space-x-6 hidden md:block">
         <a href="#home" class="hover:text-[var(--amarelo-escuro)] transition">Início</a>
@@ -43,10 +243,10 @@
   <section id="home" class="h-screen flex items-center justify-center relative overflow-hidden">
     <img src="https://images.unsplash.com/photo-1550317138-10000687a72b" 
          class="absolute w-full h-full object-cover opacity-70" alt="Hambúrguer">
-    <div class="relative text-center px-4">
-      <h2 class="text-5xl md:text-7xl font-extrabold mb-6 text-[var(--amarelo-escuro)]">Garagem 127</h2>
-      <p class="text-lg md:text-xl mb-8">O ponto certo para matar sua fome de verdade!</p>
-      <a href="#menu" class="bg-[var(--amarelo-escuro)] text-black px-6 py-3 rounded-full text-lg font-bold hover:bg-yellow-500 transition">
+    <div class="relative text-center px-4 max-w-3xl">
+      <h2 class="glitch mb-6 leading-tight">GARAGEM 127</h2>
+      <p class="text-lg md:text-xl mb-8 text-white/90">O ponto certo para matar sua fome de verdade!</p>
+      <a href="#menu" class="bg-[var(--amarelo-escuro)] text-black px-6 py-3 rounded-full text-lg font-bold hover:bg-yellow-500 transition pulse">
         Ver Cardápio
       </a>
     </div>
@@ -55,30 +255,36 @@
   <!-- Cardápio -->
   <section id="menu" class="py-20 bg-[var(--verde)]">
     <div class="max-w-6xl mx-auto px-4">
-      <h3 class="text-4xl font-bold text-center mb-12 neon">&nbsp;</h3>
+      <h3 class="text-4xl font-bold text-center mb-12 neon">TOP 3 MAIS PEDIDOS</h3>
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Item 1 -->
-        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Burger" />
-          <div class="p-6">
-            <h4 class="text-2xl font-bold mb-2 neon">&nbsp;</h4>
-            <p>Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
+        <div class="menu-item rounded-xl overflow-hidden shadow-lg" >
+          <div class="menu-item-inner">
+            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Burger" />
+            <div class="p-6">
+              <h4 class="text-2xl font-bold mb-2 neon">X-Burger</h4>
+              <p>Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
+            </div>
           </div>
         </div>
         <!-- Item 2 -->
-        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
-          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Bacon" />
-          <div class="p-6">
-            <h4 class="text-2xl font-bold mb-2 neon">&nbsp;</h4>
-            <p>Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.</p>
+        <div class="menu-item rounded-xl overflow-hidden shadow-lg" >
+          <div class="menu-item-inner">
+            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" class="w-full h-56 object-cover" alt="X-Bacon" />
+            <div class="p-6">
+              <h4 class="text-2xl font-bold mb-2 neon">X-Bacon</h4>
+              <p>Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.</p>
+            </div>
           </div>
         </div>
         <!-- Item 3 -->
-        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-0 menu-item">
-          <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" class="w-full h-56 object-cover" alt="X-Salada" />
-          <div class="p-6">
-            <h4 class="text-2xl font-bold mb-2 neon">&nbsp;</h4>
-            <p>Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.</p>
+        <div class="menu-item rounded-xl overflow-hidden shadow-lg" >
+          <div class="menu-item-inner">
+            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" class="w-full h-56 object-cover" alt="X-Salada" />
+            <div class="p-6">
+              <h4 class="text-2xl font-bold mb-2 neon">X-Salada</h4>
+              <p>Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -90,7 +296,7 @@
     <div class="max-w-6xl mx-auto px-4 md:flex items-center gap-10">
       <img src="onde estamos.png" class="w-full md:w-1/2 rounded-xl shadow-lg" alt="Interior" />
       <div class="md:w-1/2 mt-8 md:mt-0">
-        <h3 class="text-4xl font-bold mb-4 text-[var(--amarelo-escuro)]">Sobre a Garagem 127</h3>
+        <h3 class="text-4xl font-bold mb-4 neon">Sobre a Garagem 127</h3>
         <p class="mb-4">Aberta todos os dias para atender sua fome, nossa missão é entregar hambúrgueres artesanais com qualidade e sabor incomparável.</p>
         <p><strong>Horário:</strong> Segunda a Domingo das 18h às 23:30h <br /> Almoço: Segunda a Sábado das 11h às 15h</p>
       </div>
@@ -101,7 +307,7 @@
   <section id="contato" class="py-20 bg-[var(--verde)] text-center">
     <h3 class="text-4xl font-bold mb-6 text-white">GARAGEM 127 🍔</h3>
     <div class="space-x-4 mb-6">
-      <a href="https://wa.me/5541997165785?text=Oi!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20vagas,%20para%20fazer%20parte%20do%20time!" target="_blank" class="inline-block bg-white text-[var(--verde)] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition">
+      <a href="https://wa.me/5541997165785?text=Oi!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20vagas,%20para%20fazer%20parte%20do%20time!" target="_blank" class="inline-block bg-white text-[var(--verde)] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition floating-bounce">
         Trabalhe Conosco
       </a>
     </div>
@@ -126,67 +332,125 @@
       <a 
         href="https://www.google.com/maps/dir/?api=1&destination=Rua+Antonio+Johnson,+3733,+Alto+Pinheiro,+Almirante+Tamandar%C3%A9,+PR" 
         target="_blank" 
-        class="inline-block bg-[var(--amarelo-escuro)] text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition"
+        class="inline-block bg-[var(--amarelo-escuro)] text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition floating-bounce"
       >
         Como Chegar
       </a>
     </div>
   </section>
 
-  <!-- Scripts de Animação -->
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Navbar deslizando de cima
-    gsap.from("header", { y: -100, opacity: 0, duration: 1, ease: "power3.out" });
-
-    // Título e texto do Hero
-    gsap.from("#home h2", { y: 50, opacity: 0, duration: 1, delay: 0.5 });
-    gsap.from("#home p", { y: 50, opacity: 0, duration: 1, delay: 0.8 });
-
-    // Botão do Hero “Ver Cardápio”
-    gsap.from("#home a", { scale: 0, opacity: 0, duration: 0.8, delay: 1.1, ease: "back.out(1.7)" });
-
-    // Cardápio (cada item aparece um por um)
-    gsap.utils.toArray(".menu-item").forEach((item, i) => {
-      gsap.to(item, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: i * 0.3 + 1.5,
-        scrollTrigger: {
-          trigger: item,
-          start: "top 80%",
-        }
-      });
-    });
-
-    // Scroll suave para navegação
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  </script>
-
-  <!--Botão Flutuante WhatsApp -->
-  <a href="https://wa.me/5541997165785?text=Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20meu%20pedido🍔" target="_blank">
-    <img 
-      src="WhatsApp-icone.png" 
-      alt="WhatsApp" 
-      style="position: fixed; bottom: 90px; right: 20px; width: 60px; z-index: 999; cursor: pointer;"
-    >
+  <!-- Botão Flutuante WhatsApp -->
+  <a href="https://wa.me/5541997165785?text=Vim%20pelo%20site%20e%20gostaria%20de%20fazer%20um%20pedido!" 
+     target="_blank" 
+     aria-label="WhatsApp"
+     class="fixed bottom-24 right-4 z-50 bg-[var(--amarelo-escuro)] rounded-full p-4 shadow-lg hover:bg-yellow-500 transition floating-bounce"
+  >
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" class="w-8 h-8" />
   </a>
 
-  <!--Botão Flutuante Instagram -->
-  <a href="https://www.instagram.com/garagem127ofc/" target="_blank">
-    <img 
-      src="instagram-icone.png" 
-      alt="Instagram" 
-      style="position: fixed; bottom: 20px; right: 20px; width: 60px; z-index: 999; cursor: pointer;"
-    >
+  <!-- Botão Flutuante Instagram -->
+  <a href="https://instagram.com/garagem127hamburgueria" 
+     target="_blank" 
+     aria-label="Instagram"
+     class="fixed bottom-6 right-4 z-50 bg-[var(--amarelo-escuro)] rounded-full p-4 shadow-lg hover:bg-yellow-500 transition floating-bounce"
+  >
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram" class="w-8 h-8" />
   </a>
 
+<script>
+  // Loader fadeout
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loading-screen');
+    loader.style.opacity = '0';
+    setTimeout(() => loader.style.display = 'none', 600);
+  });
+
+  // Navbar shadow on scroll
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if(window.scrollY > 20) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // Parallax effect cards
+  document.querySelectorAll('.menu-item').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const inner = card.querySelector('.menu-item-inner');
+      const rotateX = (y / rect.height) * 15;
+      const rotateY = (x / rect.width) * 15;
+      inner.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      const inner = card.querySelector('.menu-item-inner');
+      inner.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+    });
+  });
+
+  // Fundo partículas simples
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particlesArray = [];
+
+  function Particle() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.radius = Math.random() * 1.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.8 + 0.2;
+  }
+
+  Particle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(212, 160, 23, ${this.opacity})`;
+    ctx.shadowColor = `rgba(212, 160, 23, 0.6)`;
+    ctx.shadowBlur = 5;
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  Particle.prototype.update = function() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if(this.x > width) this.x = 0;
+    else if(this.x < 0) this.x = width;
+
+    if(this.y > height) this.y = 0;
+    else if(this.y < 0) this.y = height;
+
+    this.draw();
+  }
+
+  function initParticles() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    particlesArray = [];
+    for(let i = 0; i < 100; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+    particlesArray.forEach(p => p.update());
+    requestAnimationFrame(animateParticles);
+  }
+
+  window.addEventListener('resize', initParticles);
+
+  initParticles();
+  animateParticles();
+
+</script>
 </body>
 </html>
