@@ -90,7 +90,7 @@
       transition: box-shadow 0.3s ease;
     }
     #menu-container > div:hover {
-      box-shadow: 0 0 15px var(--verde);
+      box-shadow: 0 0 15px 3px var(--verde);
     }
 
     /* Carrinho oculto inicialmente */
@@ -174,9 +174,9 @@
       const filteredItems = category === 'all' ? menuItems : menuItems.filter(item => item.categoria === category);
       filteredItems.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'shadow-lg rounded-lg overflow-hidden';
+        card.className = '';
         card.innerHTML = `
-          <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover">
+          <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover" />
           <div class="p-4">
             <h3 class="text-xl font-bold">${item.nome}</h3>
             <p class="text-sm mb-2">R$ ${item.preco.toFixed(2)}</p>
