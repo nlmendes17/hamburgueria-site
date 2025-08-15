@@ -2,412 +2,164 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cardápio Garagem 127</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    :root {
+      --verde: #1a3d2f;
+      --amarelo-escuro: #d4a017;
+    }
     body {
       background-color: #000;
       color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .cart-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #d4a017;
-      color: black;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: 700;
-      cursor: pointer;
-      z-index: 999;
-      box-shadow: 0 0 10px rgba(212,160,23,0.7);
-      user-select: none;
-      transition: background-color 0.3s;
-    }
-    .cart-toggle:hover {
-      background-color: #e6b422;
-    }
-    .cart {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100vh;
-      width: 320px;
-      background: #111;
-      box-shadow: -4px 0 15px rgba(0,0,0,0.7);
-      padding: 20px;
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
-      overflow-y: auto;
-      z-index: 998;
-      display: flex;
-      flex-direction: column;
-    }
-    .cart.open {
-      transform: translateX(0);
-    }
-    .cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #444;
-      padding-bottom: 10px;
-    }
-    .cart-header h2 {
-      font-size: 1.5rem;
-      color: #d4a017;
-    }
-    .close-cart {
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      color: #d4a017;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    .cart-items {
-      flex-grow: 1;
-      overflow-y: auto;
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #333;
-      padding: 10px 0;
-    }
-    .cart-item-name {
-      flex: 1;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    .cart-item-qty {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .qty-btn {
-      background: #d4a017;
-      border: none;
-      color: black;
-      font-weight: 700;
-      padding: 2px 8px;
-      cursor: pointer;
-      border-radius: 4px;
-      user-select: none;
-    }
-    .cart-item-price {
-      width: 60px;
-      text-align: right;
-      font-weight: 600;
-    }
-    .cart-total {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-      border-top: 1px solid #444;
-      padding-top: 10px;
-      color: #d4a017;
-    }
-    textarea#observations {
-      margin-top: 15px;
-      width: 100%;
-      height: 80px;
-      background: #222;
-      border: 1px solid #444;
-      border-radius: 6px;
-      color: white;
-      padding: 10px;
-      resize: vertical;
-      font-size: 0.9rem;
-    }
-    button#finalize-btn {
-      margin-top: 15px;
-      width: 100%;
-      background: #d4a017;
-      border: none;
-      color: black;
-      font-weight: 700;
-      padding: 12px;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button#finalize-btn:hover {
-      background-color: #e6b422;
-    }
-    /* Cardápio itens */
-    .menu-grid {
-      max-width: 960px;
-      margin: 30px auto 100px;
-      display: grid;
-      gap: 24px;
-      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-      padding: 0 20px;
-    }
-    .menu-item {
-      background: #111;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(212,160,23,0.5);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease;
-    }
-    .menu-item:hover {
-      transform: scale(1.05);
-    }
-    .menu-item img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .menu-item-content {
-      padding: 15px 20px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .menu-item h4 {
-      color: #d4a017;
-      margin-bottom: 6px;
-      font-size: 1.3rem;
-    }
-    .menu-item p {
-      flex-grow: 1;
-      font-size: 0.95rem;
-      color: #ddd;
-      margin-bottom: 12px;
-    }
-    .menu-item-price {
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-    .btn-add {
-      background-color: #d4a017;
-      border: none;
-      color: black;
-      padding: 10px 15px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.3s;
-      user-select: none;
-    }
-    .btn-add:hover {
-      background-color: #e6b422;
+      font-family: 'Segoe UI', sans-serif;
     }
   </style>
 </head>
-<body>
+<body class="relative">
 
-  <header class="text-center mt-8">
-    <img src="https://via.placeholder.com/180x80?text=Logo+Garagem+127" alt="Logo Garagem 127" class="mx-auto mb-4" style="max-width:180px; height:auto;" />
-    <h1 class="text-3xl font-extrabold" style="color:#d4a017;">Cardápio</h1>
+  <!-- Logo + Título -->
+  <header class="flex flex-col items-center mt-8 mb-6">
+    <img src="logo.png" alt="Logo Garagem 127" class="mb-4" style="max-width: 180px;" />
+    <h1 class="text-3xl font-extrabold text-[var(--amarelo-escuro)]">Cardápio</h1>
   </header>
 
-  <div class="menu-grid" id="menuGrid">
-    <!-- Itens do cardápio aqui pelo JS -->
+  <!-- Filtros -->
+  <div class="flex justify-center gap-4 mb-6">
+    <button class="filter-btn bg-[var(--amarelo-escuro)] text-black font-bold px-4 py-2 rounded" data-category="all">Todos</button>
+    <button class="filter-btn bg-gray-700 px-4 py-2 rounded" data-category="lanches">Lanches</button>
+    <button class="filter-btn bg-gray-700 px-4 py-2 rounded" data-category="combos">Combos</button>
+    <button class="filter-btn bg-gray-700 px-4 py-2 rounded" data-category="bebidas">Bebidas</button>
   </div>
 
+  <!-- Cardápio -->
+  <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 max-w-6xl mx-auto mb-32" id="menu-container">
+    <!-- Os itens serão inseridos via JS -->
+  </main>
+
   <!-- Botão Carrinho -->
-  <div class="cart-toggle" id="cartToggle">Carrinho (0)</div>
+  <button id="cart-toggle" class="fixed bottom-6 right-6 bg-[var(--amarelo-escuro)] text-black px-5 py-3 rounded-full font-bold shadow-lg z-50">
+    Carrinho 🛒
+  </button>
 
-  <!-- Painel do Carrinho -->
-  <aside class="cart" id="cart" aria-hidden="true">
-    <div class="cart-header">
-      <h2>Carrinho</h2>
-      <button class="close-cart" id="closeCartBtn" aria-label="Fechar carrinho">&times;</button>
+  <!-- Carrinho -->
+  <aside id="cart" class="fixed top-0 right-0 w-full md:w-96 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-50">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold">Seu Pedido</h2>
+      <button id="close-cart" class="text-gray-400 hover:text-white text-xl">&times;</button>
     </div>
-    <div class="cart-items" id="cartItems">
-      <!-- itens adicionados aparecem aqui -->
+    <ul id="cart-items" class="space-y-2 mb-4"></ul>
+    <div class="mb-4">
+      <label for="obs" class="block text-sm mb-1">Observações:</label>
+      <textarea id="obs" rows="3" class="w-full p-2 rounded bg-gray-800 text-white"></textarea>
     </div>
-    <div class="cart-total" id="cartTotal">Total: R$ 0,00</div>
-
-    <textarea id="observations" placeholder="Adicionar observações ao pedido..."></textarea>
-    <button id="finalize-btn">Finalizar Pedido</button>
+    <div class="font-bold text-lg mb-4">Total: R$ <span id="cart-total">0.00</span></div>
+    <button id="finalize" class="w-full bg-[var(--amarelo-escuro)] text-black py-3 rounded font-bold hover:bg-yellow-500">Finalizar Pedido</button>
   </aside>
 
+  <!-- Scripts -->
   <script>
     const menuItems = [
-      {
-        name: "X-Burger",
-        description: "Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.",
-        price: 23.90,
-        img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
-      },
-      {
-        name: "X-Bacon",
-        description: "Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.",
-        price: 27.50,
-        img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
-      },
-      {
-        name: "X-Salada",
-        description: "Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.",
-        price: 22.00,
-        img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add"
-      },
-      {
-        name: "Cheddar Burger",
-        description: "Hambúrguer suculento com cheddar derretido, cebola caramelizada e maionese especial.",
-        price: 29.90,
-        img: "https://images.unsplash.com/photo-1550547660-d9450f859349"
-      },
-      {
-        name: "Veggie Burger",
-        description: "Hambúrguer vegetariano com mix de vegetais, queijo, alface e molho especial.",
-        price: 24.50,
-        img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add"
-      }
+      { id: 1, nome: 'X-Burger', preco: 18.00, categoria: 'lanches', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349' },
+      { id: 2, nome: 'X-Bacon', preco: 22.00, categoria: 'lanches', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349' },
+      { id: 3, nome: 'X-Salada', preco: 20.00, categoria: 'lanches', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add' },
+      { id: 4, nome: 'Combo Duplo', preco: 35.00, categoria: 'combos', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd' },
+      { id: 5, nome: 'Combo Família', preco: 58.00, categoria: 'combos', img: 'https://images.unsplash.com/photo-1606755962773-bf08f18c0c91' },
+      { id: 6, nome: 'Coca-Cola 350ml', preco: 6.00, categoria: 'bebidas', img: 'https://images.unsplash.com/photo-1580910051073-e17a78f2f7d6' },
+      { id: 7, nome: 'Guaraná Antarctica 2L', preco: 10.00, categoria: 'bebidas', img: 'https://images.unsplash.com/photo-1610057090186-1f1d0c15f75e' },
     ];
 
-    const menuGrid = document.getElementById('menuGrid');
-    const cartToggle = document.getElementById('cartToggle');
+    let carrinho = [];
+
+    const container = document.getElementById('menu-container');
+    const cartToggle = document.getElementById('cart-toggle');
     const cart = document.getElementById('cart');
-    const closeCartBtn = document.getElementById('closeCartBtn');
-    const cartItemsElem = document.getElementById('cartItems');
-    const cartTotalElem = document.getElementById('cartTotal');
-    const observationsElem = document.getElementById('observations');
-    const finalizeBtn = document.getElementById('finalize-btn');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const finalizeBtn = document.getElementById('finalize');
+    const obsTextarea = document.getElementById('obs');
 
-    let cartData = [];
-
-    // Renderiza itens do cardápio
-    function renderMenu() {
-      menuGrid.innerHTML = '';
-      menuItems.forEach(item => {
-        const div = document.createElement('div');
-        div.classList.add('menu-item');
-        div.innerHTML = `
-          <img src="${item.img}" alt="${item.name}" />
-          <div class="menu-item-content">
-            <h4>${item.name}</h4>
-            <p>${item.description}</p>
-            <div class="menu-item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</div>
-            <button class="btn-add" aria-label="Adicionar ${item.name} ao carrinho">Adicionar</button>
+    // Renderiza os itens no menu
+    function renderMenu(category = 'all') {
+      container.innerHTML = '';
+      const filteredItems = category === 'all' ? menuItems : menuItems.filter(item => item.categoria === category);
+      filteredItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-900 rounded-lg overflow-hidden shadow-lg';
+        card.innerHTML = `
+          <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h3 class="text-xl font-bold text-[var(--amarelo-escuro)]">${item.nome}</h3>
+            <p class="text-sm mb-2">R$ ${item.preco.toFixed(2)}</p>
+            <button onclick="addToCart(${item.id})" class="mt-2 bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-600">Adicionar</button>
           </div>
         `;
-        div.querySelector('button').addEventListener('click', () => {
-          addToCart(item.name, item.price);
-        });
-        menuGrid.appendChild(div);
+        container.appendChild(card);
       });
     }
 
-    // Adiciona item ao carrinho (sem abrir ele)
-    function addToCart(name, price) {
-      const item = cartData.find(i => i.name === name);
-      if(item){
-        item.qty++;
+    // Adiciona ao carrinho
+    function addToCart(id) {
+      const item = menuItems.find(i => i.id === id);
+      const existing = carrinho.find(i => i.id === id);
+      if (existing) {
+        existing.qtd++;
       } else {
-        cartData.push({name, price, qty:1});
+        carrinho.push({ ...item, qtd: 1 });
       }
       updateCart();
-      // NÃO chama openCart() aqui para não abrir automático
     }
 
-    // Atualiza exibição do carrinho
+    // Atualiza o carrinho
     function updateCart() {
-      cartItemsElem.innerHTML = '';
-      if(cartData.length === 0){
-        cartItemsElem.innerHTML = '<p style="color:#777; text-align:center; margin-top:20px;">Seu carrinho está vazio.</p>';
-        cartTotalElem.textContent = 'Total: R$ 0,00';
-        cartToggle.textContent = 'Carrinho (0)';
-        return;
-      }
-      cartData.forEach(item => {
-        const div = document.createElement('div');
-        div.classList.add('cart-item');
-        div.innerHTML = `
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-qty">
-            <button class="qty-btn" aria-label="Diminuir quantidade">-</button>
-            <span>${item.qty}</span>
-            <button class="qty-btn" aria-label="Aumentar quantidade">+</button>
-          </div>
-          <div class="cart-item-price">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</div>
+      cartItems.innerHTML = '';
+      let total = 0;
+      carrinho.forEach(item => {
+        total += item.preco * item.qtd;
+        cartItems.innerHTML += `
+          <li class="flex justify-between items-center">
+            <span>${item.nome} x${item.qtd}</span>
+            <span>R$ ${(item.preco * item.qtd).toFixed(2)}</span>
+          </li>
         `;
-
-        const btns = div.querySelectorAll('.qty-btn');
-        btns[0].addEventListener('click', () => {
-          if(item.qty > 1){
-            item.qty--;
-          } else {
-            // remove item se qtd for 1 e apertar diminuir
-            cartData = cartData.filter(i => i.name !== item.name);
-          }
-          updateCart();
-        });
-        btns[1].addEventListener('click', () => {
-          item.qty++;
-          updateCart();
-        });
-
-        cartItemsElem.appendChild(div);
       });
-
-      const total = cartData.reduce((acc,i) => acc + i.price * i.qty, 0);
-      cartTotalElem.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
-      cartToggle.textContent = `Carrinho (${cartData.reduce((acc,i) => acc + i.qty,0)})`;
+      cartTotal.textContent = total.toFixed(2);
     }
+
+    // Abrir/Fechar carrinho
+    cartToggle.addEventListener('click', () => {
+      cart.classList.toggle('translate-x-full');
+    });
+    closeCartBtn.addEventListener('click', () => {
+      cart.classList.add('translate-x-full');
+    });
+
+    // Filtros
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('bg-[var(--amarelo-escuro)]', 'text-black'));
+        btn.classList.add('bg-[var(--amarelo-escuro)]', 'text-black');
+        renderMenu(btn.dataset.category);
+      });
+    });
 
     // Finalizar pedido
-    function finalizeOrder() {
-      if(cartData.length === 0){
-        alert('Adicione algum item antes de finalizar o pedido.');
-        return;
-      }
-      const observations = observationsElem.value.trim();
-      let resumo = 'Resumo do Pedido:\n\n';
-      cartData.forEach(i => {
-        resumo += `${i.qty}x ${i.name} - R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}\n`;
+    finalizeBtn.addEventListener('click', () => {
+      const obs = obsTextarea.value.trim();
+      let texto = '📋 *Pedido Garagem 127*:%0A';
+      carrinho.forEach(item => {
+        texto += `• ${item.nome} x${item.qtd} - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
       });
-      resumo += `\nTotal: R$ ${cartData.reduce((acc,i) => acc + i.price * i.qty, 0).toFixed(2).replace('.', ',')}`;
-      if(observations) resumo += `\n\nObservações: ${observations}`;
-
-      alert(resumo);
-      // Aqui pode mandar o pedido para backend ou WhatsApp...
-
-      // Limpar carrinho após finalizar
-      cartData = [];
-      observationsElem.value = '';
-      updateCart();
-      closeCart();
-    }
-
-    // Abrir e fechar carrinho
-    function openCart() {
-      cart.classList.add('open');
-      cart.setAttribute('aria-hidden', 'false');
-    }
-    function closeCart() {
-      cart.classList.remove('open');
-      cart.setAttribute('aria-hidden', 'true');
-    }
-
-    cartToggle.addEventListener('click', () => {
-      if(cart.classList.contains('open')){
-        closeCart();
-      } else {
-        openCart();
-      }
+      texto += `📝 *Observações:* ${obs ? obs : 'Nenhuma'}%0A`;
+      texto += `💰 *Total:* R$ ${cartTotal.textContent}%0A`;
+      const link = `https://wa.me/5541997165785?text=${encodeURI(texto)}`;
+      window.open(link, '_blank');
     });
 
-    closeCartBtn.addEventListener('click', () => {
-      closeCart();
-    });
-
-    finalizeBtn.addEventListener('click', finalizeOrder);
-
-    renderMenu();
-    updateCart();
-
+    renderMenu(); // Inicial
   </script>
+
 </body>
 </html>
