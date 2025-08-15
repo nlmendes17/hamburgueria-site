@@ -80,6 +80,19 @@
       background-color: #14532d;
     }
 
+    /* Cards do cardápio: fundo preto + borda branca */
+    #menu-container > div {
+      background-color: #000 !important;
+      border: 1.5px solid white;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 0 12px rgba(255,255,255,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    #menu-container > div:hover {
+      box-shadow: 0 0 15px var(--verde);
+    }
+
     /* Carrinho oculto inicialmente */
     #cart {
       transform: translateX(100%);
@@ -161,7 +174,7 @@
       const filteredItems = category === 'all' ? menuItems : menuItems.filter(item => item.categoria === category);
       filteredItems.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'bg-gray-900 rounded-lg overflow-hidden shadow-lg';
+        card.className = 'shadow-lg rounded-lg overflow-hidden';
         card.innerHTML = `
           <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover">
           <div class="p-4">
