@@ -142,7 +142,7 @@
     /* Cardápio itens */
     .menu-grid {
       max-width: 960px;
-      margin: 50px auto 100px;
+      margin: 30px auto 100px;
       display: grid;
       gap: 24px;
       grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
@@ -206,7 +206,10 @@
 </head>
 <body>
 
-  <h1 class="text-center text-4xl font-extrabold mt-12 text-[var(--amarelo-escuro)]" style="color:#d4a017;">Cardápio Garagem 127</h1>
+  <header class="text-center mt-8">
+    <img src="https://via.placeholder.com/180x80?text=Logo+Garagem+127" alt="Logo Garagem 127" class="mx-auto mb-4" style="max-width:180px; height:auto;" />
+    <h1 class="text-3xl font-extrabold" style="color:#d4a017;">Cardápio</h1>
+  </header>
 
   <div class="menu-grid" id="menuGrid">
     <!-- Itens do cardápio aqui pelo JS -->
@@ -396,12 +399,15 @@
       }
     });
 
-    closeCartBtn.addEventListener('click', closeCart);
+    closeCartBtn.addEventListener('click', () => {
+      closeCart();
+    });
+
     finalizeBtn.addEventListener('click', finalizeOrder);
 
-    // Inicializa
     renderMenu();
     updateCart();
+
   </script>
 </body>
 </html>
