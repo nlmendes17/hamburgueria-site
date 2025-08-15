@@ -1,94 +1,128 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cardápio - Garagem 127</title>
+  <title>Cardápio Garagem 127</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
       --amarelo-escuro: #d4a017;
-      --verde: #1a3d2f;
     }
-    /* Scroll para carrinho */
     #cart {
-      max-height: 70vh;
+      max-height: 80vh;
       overflow-y: auto;
+      position: sticky;
+      top: 1rem;
+      background-color: #1f2937; /* bg-gray-800 */
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Custom scrollbar (opcional) */
+    #cart::-webkit-scrollbar {
+      width: 8px;
+    }
+    #cart::-webkit-scrollbar-thumb {
+      background-color: var(--amarelo-escuro);
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="bg-black text-white font-sans flex min-h-screen">
+<body class="bg-black text-white font-sans flex flex-col md:flex-row min-h-screen">
 
-  <!-- Conteúdo principal -->
   <main class="flex-grow max-w-6xl mx-auto p-6">
-    <h1 class="text-4xl font-bold mb-6 text-[var(--amarelo-escuro)] text-center">Nosso Cardápio</h1>
+    <h1 class="text-4xl font-bold mb-8 text-[var(--amarelo-escuro)]">Cardápio Garagem 127</h1>
 
     <!-- Filtros -->
-    <div class="flex justify-center gap-4 mb-10">
-      <button class="filter-btn px-4 py-2 bg-yellow-600 text-black font-bold rounded" data-filter="all">Todos</button>
-      <button class="filter-btn px-4 py-2 bg-yellow-600 text-black font-bold rounded" data-filter="hamburguer">Hambúrguer</button>
-      <button class="filter-btn px-4 py-2 bg-yellow-600 text-black font-bold rounded" data-filter="bebida">Bebidas</button>
-      <button class="filter-btn px-4 py-2 bg-yellow-600 text-black font-bold rounded" data-filter="extra">Extras</button>
+    <div class="mb-8 flex space-x-4 justify-center flex-wrap">
+      <button class="filter-btn bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-semibold" data-filter="all">Todos</button>
+      <button class="filter-btn bg-gray-800 px-4 py-2 rounded hover:bg-[var(--amarelo-escuro)] hover:text-black" data-filter="hamburguer">Hambúrguer</button>
+      <button class="filter-btn bg-gray-800 px-4 py-2 rounded hover:bg-[var(--amarelo-escuro)] hover:text-black" data-filter="porcao">Porção</button>
+      <button class="filter-btn bg-gray-800 px-4 py-2 rounded hover:bg-[var(--amarelo-escuro)] hover:text-black" data-filter="bebida">Bebida</button>
     </div>
 
-    <!-- Lista de itens -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Exemplo Hambúrguer -->
-      <div class="menu-item bg-white rounded-lg shadow p-4 cursor-pointer" data-category="hamburguer" data-name="X-Burger" data-price="25">
-        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="X-Burger" class="rounded-lg mb-4 w-full h-48 object-cover" />
-        <h3 class="text-xl font-semibold mb-1 text-black">X-Burger</h3>
-        <p class="mb-2 text-gray-700">Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
-        <p class="font-bold mb-4 text-[var(--amarelo-escuro)]">R$ 25,00</p>
-        <button class="add-to-cart bg-yellow-600 text-black font-bold px-4 py-2 rounded hover:bg-yellow-700 transition">Adicionar</button>
+    <!-- Lista de lanches -->
+    <div id="menu-items" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Itens - repita e adapte -->
+      <div class="bg-gray-900 rounded shadow p-4 menu-item" data-category="hamburguer">
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="X-Burger" class="w-full h-48 object-cover rounded mb-4" />
+        <h3 class="text-xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Burger</h3>
+        <p class="mb-2">Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.</p>
+        <p class="font-semibold mb-4">R$ 24,90</p>
+        <button class="add-to-cart bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-500 transition w-full">Adicionar ao carrinho</button>
       </div>
 
-      <!-- Exemplo Bebida -->
-      <div class="menu-item bg-white rounded-lg shadow p-4 cursor-pointer" data-category="bebida" data-name="Refrigerante" data-price="8">
-        <img src="https://images.unsplash.com/photo-1582845511205-7c392960415a" alt="Refrigerante" class="rounded-lg mb-4 w-full h-48 object-cover" />
-        <h3 class="text-xl font-semibold mb-1 text-black">Refrigerante</h3>
-        <p class="mb-2 text-gray-700">Refrigerante gelado para acompanhar seu lanche.</p>
-        <p class="font-bold mb-4 text-[var(--amarelo-escuro)]">R$ 8,00</p>
-        <button class="add-to-cart bg-yellow-600 text-black font-bold px-4 py-2 rounded hover:bg-yellow-700 transition">Adicionar</button>
+      <div class="bg-gray-900 rounded shadow p-4 menu-item" data-category="hamburguer">
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="X-Bacon" class="w-full h-48 object-cover rounded mb-4" />
+        <h3 class="text-xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Bacon</h3>
+        <p class="mb-2">Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.</p>
+        <p class="font-semibold mb-4">R$ 28,90</p>
+        <button class="add-to-cart bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-500 transition w-full">Adicionar ao carrinho</button>
       </div>
 
-      <!-- Exemplo Extra -->
-      <div class="menu-item bg-white rounded-lg shadow p-4 cursor-pointer" data-category="extra" data-name="Batata Frita" data-price="15">
-        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349" alt="Batata Frita" class="rounded-lg mb-4 w-full h-48 object-cover" />
-        <h3 class="text-xl font-semibold mb-1 text-black">Batata Frita</h3>
-        <p class="mb-2 text-gray-700">Porção de batata frita crocante e deliciosa.</p>
-        <p class="font-bold mb-4 text-[var(--amarelo-escuro)]">R$ 15,00</p>
-        <button class="add-to-cart bg-yellow-600 text-black font-bold px-4 py-2 rounded hover:bg-yellow-700 transition">Adicionar</button>
+      <div class="bg-gray-900 rounded shadow p-4 menu-item" data-category="hamburguer">
+        <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add" alt="X-Salada" class="w-full h-48 object-cover rounded mb-4" />
+        <h3 class="text-xl font-bold mb-2 text-[var(--amarelo-escuro)]">X-Salada</h3>
+        <p class="mb-2">Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.</p>
+        <p class="font-semibold mb-4">R$ 26,90</p>
+        <button class="add-to-cart bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-500 transition w-full">Adicionar ao carrinho</button>
       </div>
 
-      <!-- Pode adicionar mais itens seguindo o padrão -->
+      <div class="bg-gray-900 rounded shadow p-4 menu-item" data-category="porcao">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" alt="Porção de Batata" class="w-full h-48 object-cover rounded mb-4" />
+        <h3 class="text-xl font-bold mb-2 text-[var(--amarelo-escuro)]">Porção de Batata</h3>
+        <p class="mb-2">Batatas crocantes e bem temperadas.</p>
+        <p class="font-semibold mb-4">R$ 18,00</p>
+        <button class="add-to-cart bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-500 transition w-full">Adicionar ao carrinho</button>
+      </div>
+
+      <div class="bg-gray-900 rounded shadow p-4 menu-item" data-category="bebida">
+        <img src="https://images.unsplash.com/photo-1567016512990-72ad5b0a20bb" alt="Refrigerante" class="w-full h-48 object-cover rounded mb-4" />
+        <h3 class="text-xl font-bold mb-2 text-[var(--amarelo-escuro)]">Refrigerante</h3>
+        <p class="mb-2">Lata 350ml</p>
+        <p class="font-semibold mb-4">R$ 7,00</p>
+        <button class="add-to-cart bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-500 transition w-full">Adicionar ao carrinho</button>
+      </div>
     </div>
   </main>
 
-  <!-- Carrinho flutuante lateral -->
-  <aside id="cart" class="w-80 bg-gray-900 p-6 sticky top-0 h-screen overflow-auto shadow-lg flex flex-col">
-    <h2 class="text-2xl font-bold mb-6 text-[var(--amarelo-escuro)]">Carrinho</h2>
-    <ul id="cart-items" class="flex-grow overflow-y-auto mb-4 space-y-4">
-      <!-- Itens do carrinho aparecem aqui -->
+  <aside id="cart" class="w-full md:w-80 flex-shrink-0">
+    <h2 class="text-2xl font-bold mb-4 text-[var(--amarelo-escuro)] border-b border-yellow-600 pb-2">Carrinho</h2>
+    <ul id="cart-items" class="flex-grow overflow-auto mb-4 space-y-4 max-h-[50vh]">
+      <li class="text-gray-400">Seu carrinho está vazio.</li>
     </ul>
-    <div class="border-t border-gray-700 pt-4">
-      <p class="text-lg font-semibold mb-4 text-white">Total: <span id="cart-total">R$ 0,00</span></p>
-      <button id="checkout-btn" class="w-full bg-yellow-600 text-black font-bold py-3 rounded hover:bg-yellow-700 transition">Finalizar Pedido</button>
+
+    <label for="obs" class="block mb-2 font-semibold">Observações do pedido:</label>
+    <textarea id="obs" rows="3" placeholder="Ex: Sem cebola, mais queijo..." 
+      class="w-full p-2 mb-4 rounded text-black resize-none"></textarea>
+
+    <div class="border-t border-yellow-600 pt-4">
+      <p class="text-lg font-semibold mb-4">Total: <span id="cart-total">R$ 0,00</span></p>
+      <button id="checkout-btn" class="w-full bg-[var(--amarelo-escuro)] text-black py-3 rounded font-bold hover:bg-yellow-500 transition" disabled>Finalizar Pedido</button>
     </div>
   </aside>
 
   <script>
-    // Filtrar categorias
+    // Filtrar cardápio por categoria
     const filterButtons = document.querySelectorAll('.filter-btn');
     const menuItems = document.querySelectorAll('.menu-item');
 
     filterButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter');
-        filterButtons.forEach(btn => btn.classList.remove('bg-yellow-900'));
-        button.classList.add('bg-yellow-900');
+        const filter = button.dataset.filter;
+        filterButtons.forEach(btn => {
+          btn.classList.remove('bg-[var(--amarelo-escuro)]', 'text-black');
+          btn.classList.add('bg-gray-800', 'hover:bg-[var(--amarelo-escuro)]', 'hover:text-black');
+        });
+        button.classList.add('bg-[var(--amarelo-escuro)]', 'text-black');
+        button.classList.remove('hover:bg-[var(--amarelo-escuro)]', 'hover:text-black');
+
         menuItems.forEach(item => {
-          if(filter === 'all' || item.dataset.category === filter) {
-            item.style.display = 'block';
+          if (filter === 'all' || item.dataset.category === filter) {
+            item.style.display = '';
           } else {
             item.style.display = 'none';
           }
@@ -96,104 +130,120 @@
       });
     });
 
-    // Ativa filtro "Todos" ao carregar
-    document.querySelector('.filter-btn[data-filter="all"]').click();
-
     // Carrinho
-    const cart = [];
     const cartItemsContainer = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
+    const cartTotalEl = document.getElementById('cart-total');
     const checkoutBtn = document.getElementById('checkout-btn');
+    const obsTextarea = document.getElementById('obs');
 
-    function updateCartUI() {
+    let cart = [];
+
+    function formatPrice(price) {
+      return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function updateCart() {
       cartItemsContainer.innerHTML = '';
-      let total = 0;
+      if(cart.length === 0) {
+        cartItemsContainer.innerHTML = '<li class="text-gray-400">Seu carrinho está vazio.</li>';
+        checkoutBtn.disabled = true;
+        cartTotalEl.textContent = 'R$ 0,00';
+        return;
+      }
+      checkoutBtn.disabled = false;
 
+      let total = 0;
       cart.forEach((item, index) => {
         total += item.price * item.quantity;
+
         const li = document.createElement('li');
-        li.className = 'flex justify-between items-center text-white bg-gray-800 p-3 rounded';
+        li.className = 'flex justify-between items-center';
 
         li.innerHTML = `
           <div>
-            <p class="font-semibold">${item.name}</p>
-            <p class="text-sm text-gray-300">R$ ${item.price.toFixed(2)} x ${item.quantity}</p>
+            <p class="font-semibold">${item.name} x${item.quantity}</p>
+            <p class="text-sm text-gray-400">${formatPrice(item.price)}</p>
           </div>
-          <div class="flex items-center space-x-2">
-            <button data-index="${index}" class="decrease text-yellow-500 font-bold px-2">-</button>
-            <button data-index="${index}" class="increase text-yellow-500 font-bold px-2">+</button>
-            <button data-index="${index}" class="remove text-red-600 font-bold px-2">x</button>
+          <div class="flex space-x-2">
+            <button data-index="${index}" class="decrease-btn bg-red-600 px-2 rounded text-sm font-bold hover:bg-red-700">-</button>
+            <button data-index="${index}" class="increase-btn bg-green-600 px-2 rounded text-sm font-bold hover:bg-green-700">+</button>
+            <button data-index="${index}" class="remove-btn text-yellow-400 font-bold text-lg hover:text-yellow-500">&times;</button>
           </div>
         `;
 
         cartItemsContainer.appendChild(li);
       });
-
-      cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-
-      // Se carrinho vazio desabilita botão finalizar
-      checkoutBtn.disabled = cart.length === 0;
-      checkoutBtn.classList.toggle('opacity-50', cart.length === 0);
-      checkoutBtn.classList.toggle('cursor-not-allowed', cart.length === 0);
+      cartTotalEl.textContent = formatPrice(total);
     }
 
     function addToCart(name, price) {
-      const existingItem = cart.find(item => item.name === name);
-      if(existingItem) {
-        existingItem.quantity++;
+      const existingIndex = cart.findIndex(i => i.name === name);
+      if(existingIndex > -1) {
+        cart[existingIndex].quantity++;
       } else {
-        cart.push({name, price, quantity: 1});
+        cart.push({ name, price, quantity: 1 });
       }
-      updateCartUI();
+      updateCart();
     }
 
-    // Adicionar evento nos botões
+    // Eventos dos botões adicionar
     document.querySelectorAll('.add-to-cart').forEach(button => {
-      button.addEventListener('click', () => {
-        const itemEl = button.closest('.menu-item');
-        const name = itemEl.dataset.name;
-        const price = parseFloat(itemEl.dataset.price);
+      button.addEventListener('click', (e) => {
+        const card = e.target.closest('.menu-item');
+        const name = card.querySelector('h3').textContent;
+        const priceText = card.querySelector('p.font-semibold').textContent;
+        const price = Number(priceText.replace('R$', '').replace(',', '.'));
         addToCart(name, price);
       });
     });
 
-    // Delegação para botões do carrinho (aumentar, diminuir, remover)
+    // Delegação para os botões do carrinho (aumentar, diminuir, remover)
     cartItemsContainer.addEventListener('click', e => {
-      const index = e.target.getAttribute('data-index');
-      if(index === null) return;
-
-      if(e.target.classList.contains('increase')) {
+      if(e.target.classList.contains('increase-btn')) {
+        const index = Number(e.target.dataset.index);
         cart[index].quantity++;
-        updateCartUI();
-      } else if(e.target.classList.contains('decrease')) {
+        updateCart();
+      }
+      if(e.target.classList.contains('decrease-btn')) {
+        const index = Number(e.target.dataset.index);
         if(cart[index].quantity > 1) {
           cart[index].quantity--;
         } else {
           cart.splice(index, 1);
         }
-        updateCartUI();
-      } else if(e.target.classList.contains('remove')) {
+        updateCart();
+      }
+      if(e.target.classList.contains('remove-btn')) {
+        const index = Number(e.target.dataset.index);
         cart.splice(index, 1);
-        updateCartUI();
+        updateCart();
       }
     });
 
-    // Finalizar pedido
+    // Checkout
     checkoutBtn.addEventListener('click', () => {
-      if(cart.length === 0) {
-        alert('Seu carrinho está vazio!');
-        return;
-      }
-      let pedidoResumo = 'Pedido:\n\n';
+      if(cart.length === 0) return;
+
+      let mensagem = "Pedido:\n";
       cart.forEach(item => {
-        pedidoResumo += `${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+        mensagem += `${item.name} x${item.quantity} - ${formatPrice(item.price * item.quantity)}\n`;
       });
-      pedidoResumo += `\nTotal: R$ ${cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}`;
-      alert(pedidoResumo + '\n\nObrigado pelo seu pedido! Em breve entraremos em contato.');
-      // Limpa o carrinho após pedido
-      cart.length = 0;
-      updateCartUI();
+
+      const obs = obsTextarea.value.trim();
+      if(obs) {
+        mensagem += `\nObservações: ${obs}\n`;
+      }
+
+      mensagem += `\nTotal: ${cartTotalEl.textContent}\n\nObrigado pelo pedido!`;
+      alert(mensagem);
+
+      // Resetar carrinho e observações
+      cart = [];
+      obsTextarea.value = '';
+      updateCart();
     });
+
+    updateCart();
   </script>
 </body>
 </html>
