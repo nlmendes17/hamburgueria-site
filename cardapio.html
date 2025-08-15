@@ -119,13 +119,39 @@
       carrinho.forEach(item => {
         total += item.preco * item.qtd;
         cartItems.innerHTML += `
-          <li class="flex justify-between items-center">
-            <span>${item.nome} x${item.qtd}</span>
+          <li class="flex justify-between items-center space-x-2">
+            <span class="flex-1">${item.nome} x${item.qtd}</span>
+            <div class="flex items-center space-x-1">
+              <button onclick="decreaseQty(${item.id})" class="bg-red-600 hover:bg-red-700 px-2 rounded text-white font-bold">-</button>
+              <button onclick="increaseQty(${item.id})" class="bg-green-600 hover:bg-green-700 px-2 rounded text-white font-bold">+</button>
+            </div>
             <span>R$ ${(item.preco * item.qtd).toFixed(2)}</span>
           </li>
         `;
       });
       cartTotal.textContent = total.toFixed(2);
+    }
+
+    // Aumentar quantidade
+    function increaseQty(id) {
+      const item = carrinho.find(i => i.id === id);
+      if (item) {
+        item.qtd++;
+        updateCart();
+      }
+    }
+
+    // Diminuir quantidade
+    function decreaseQty(id) {
+      const itemIndex = carrinho.findIndex(i => i.id === id);
+      if (itemIndex > -1) {
+        if (carrinho[itemIndex].qtd > 1) {
+          carrinho[itemIndex].qtd--;
+        } else {
+          carrinho.splice(itemIndex, 1); // Remove do carrinho se qtd chegar a 0
+        }
+        updateCart();
+      }
     }
 
     // Abrir/Fechar carrinho
