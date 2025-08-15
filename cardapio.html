@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cardápio Garagem 127</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -11,155 +11,423 @@
       --amarelo-escuro: #d4a017;
     }
     body {
-      background-color: #000;
+      background: black;
       color: white;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .btn {
+      background: var(--amarelo-escuro);
+      color: black;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background: #e3b231;
+    }
+    /* Carrinho fechado e aberto */
+    #cart {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      background: #111;
+      width: 350px;
+      max-width: 90vw;
+      height: calc(100vh - 70px);
+      box-shadow: -4px 0 10px rgba(0,0,0,0.8);
+      padding: 1rem;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 999;
+    }
+    #cart.open {
+      transform: translateX(0);
+    }
+    #cart h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: var(--amarelo-escuro);
+    }
+    #cart ul {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    #cart ul li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #444;
+      padding: 0.5rem 0;
+    }
+    #cart ul li div {
+      flex: 1;
+    }
+    #cart ul li button {
+      background: none;
+      border: none;
+      color: var(--amarelo-escuro);
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      font-weight: bold;
+    }
+    #cartTotal {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-align: right;
+    }
+    #obs {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+      border: none;
+      resize: vertical;
+      margin-bottom: 1rem;
+    }
+    /* Botão do carrinho fixo */
+    #cartToggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--amarelo-escuro);
+      color: black;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(212,160,23,0.7);
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #cartToggle:hover {
+      background: #e3b231;
+    }
+
+    /* Filtros */
+    #filters {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    #filters button {
+      background: var(--verde);
+      border: 2px solid var(--amarelo-escuro);
+      color: var(--amarelo-escuro);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    #filters button.active,
+    #filters button:hover {
+      background: var(--amarelo-escuro);
+      color: black;
+    }
+
+    /* Cardápio grid */
+    #menu {
+      max-width: 1000px;
+      margin: auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+      gap: 1.5rem;
+    }
+    .item-card {
+      background: #111;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(212,160,23,0.4);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .item-card:hover {
+      transform: scale(1.05);
+    }
+    .item-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .item-info {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .item-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--amarelo-escuro);
+    }
+    .item-desc {
+      flex-grow: 1;
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 0.8rem;
+    }
+    .item-price {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+    .item-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .item-actions button {
+      background: var(--amarelo-escuro);
+      border: none;
+      color: black;
+      padding: 0.4rem 0.8rem;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .item-actions button:hover {
+      background: #e3b231;
     }
   </style>
 </head>
-<body class="relative">
+<body>
 
-  <!-- Logo + Título -->
-  <header class="flex flex-col items-center mt-8 mb-6">
-    <img src="logo.png" alt="Logo Garagem 127" class="mb-4" style="max-width: 180px;" />
-    <h1 class="text-3xl font-extrabold text-[var(--amarelo-escuro)]">Cardápio</h1>
-  </header>
+  <!-- Botão toggle do carrinho -->
+  <div id="cartToggle" title="Abrir/Fechar Carrinho">🛒</div>
+
+  <!-- Carrinho lateral -->
+  <aside id="cart">
+    <h3>Carrinho</h3>
+    <ul id="cartItems"></ul>
+    <div id="cartTotal">Total: R$ 0,00</div>
+    <textarea id="obs" rows="3" placeholder="Observações do pedido..."></textarea>
+    <button id="finalizar" class="btn">Finalizar Pedido</button>
+  </aside>
 
   <!-- Filtros -->
-  <div class="flex justify-center gap-4 mb-6">
-    <button class="filter-btn bg-[var(--amarelo-escuro)] text-black font-bold px-4 py-2 rounded" data-category="all">Todos</button>
-    <button class="filter-btn bg-gray-700 px-4 py-2 rounded" data-category="lanches">Lanches</button>
-    <button class="filter-btn bg-gray-700 px-4 py-2 rounded" data-category="combos">Combos</button>
-    <button class="filter-btn bg-gray-700 px-4 py-2 rounded" data-category="bebidas">Bebidas</button>
+  <div id="filters">
+    <button data-filter="all" class="active">Todos</button>
+    <button data-filter="lanche">Lanches</button>
+    <button data-filter="combo">Combos</button>
+    <button data-filter="bebida">Bebidas</button>
   </div>
 
   <!-- Cardápio -->
-  <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 max-w-6xl mx-auto mb-32" id="menu-container">
-    <!-- Os itens serão inseridos via JS -->
-  </main>
+  <main id="menu"></main>
 
-  <!-- Botão Carrinho -->
-  <button id="cart-toggle" class="fixed bottom-6 right-6 bg-[var(--amarelo-escuro)] text-black px-5 py-3 rounded-full font-bold shadow-lg z-50">
-    Carrinho 🛒
-  </button>
-
-  <!-- Carrinho -->
-  <aside id="cart" class="fixed top-0 right-0 w-full md:w-96 h-full bg-black text-white p-6 transform translate-x-full transition-transform duration-300 z-50">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-bold">Seu Pedido</h2>
-      <button id="close-cart" class="text-gray-400 hover:text-white text-xl">&times;</button>
-    </div>
-    <ul id="cart-items" class="space-y-2 mb-4"></ul>
-    <div class="mb-4">
-      <label for="obs" class="block text-sm mb-1">Observações:</label>
-      <textarea id="obs" rows="3" class="w-full p-2 rounded bg-gray-800 text-white"></textarea>
-    </div>
-    <div class="font-bold text-lg mb-4">Total: R$ <span id="cart-total">0.00</span></div>
-    <button id="finalize" class="w-full bg-[var(--amarelo-escuro)] text-black py-3 rounded font-bold hover:bg-yellow-500">Finalizar Pedido</button>
-  </aside>
-
-  <!-- Scripts -->
-  <script>
-    const menuItems = [
-      { id: 1, nome: 'X-Burger', preco: 18.00, categoria: 'lanches', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349' },
-      { id: 2, nome: 'X-Bacon', preco: 22.00, categoria: 'lanches', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349' },
-      { id: 3, nome: 'X-Salada', preco: 20.00, categoria: 'lanches', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add' },
-      { id: 4, nome: 'Combo Duplo', preco: 35.00, categoria: 'combos', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd' },
-      { id: 5, nome: 'Combo Família', preco: 58.00, categoria: 'combos', img: 'https://images.unsplash.com/photo-1606755962773-bf08f18c0c91' },
-      { id: 6, nome: 'Coca-Cola 350ml', preco: 6.00, categoria: 'bebidas', img: 'https://images.unsplash.com/photo-1580910051073-e17a78f2f7d6' },
-      { id: 7, nome: 'Guaraná Antarctica 2L', preco: 10.00, categoria: 'bebidas', img: 'https://images.unsplash.com/photo-1610057090186-1f1d0c15f75e' },
-    ];
-
-    let carrinho = [];
-
-    const container = document.getElementById('menu-container');
-    const cartToggle = document.getElementById('cart-toggle');
-    const cart = document.getElementById('cart');
-    const closeCartBtn = document.getElementById('close-cart');
-    const cartItems = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
-    const finalizeBtn = document.getElementById('finalize');
-    const obsTextarea = document.getElementById('obs');
-
-    // Renderiza os itens no menu
-    function renderMenu(category = 'all') {
-      container.innerHTML = '';
-      const filteredItems = category === 'all' ? menuItems : menuItems.filter(item => item.categoria === category);
-      filteredItems.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'bg-gray-900 rounded-lg overflow-hidden shadow-lg';
-        card.innerHTML = `
-          <img src="${item.img}" alt="${item.nome}" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-xl font-bold text-[var(--amarelo-escuro)]">${item.nome}</h3>
-            <p class="text-sm mb-2">R$ ${item.preco.toFixed(2)}</p>
-            <button onclick="addToCart(${item.id})" class="mt-2 bg-[var(--amarelo-escuro)] text-black px-4 py-2 rounded font-bold hover:bg-yellow-600">Adicionar</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
+<script>
+  // Dados dos itens do cardápio
+  const menu = [
+    {
+      id: 1,
+      nome: 'X-Burger',
+      desc: 'Pão brioche, carne artesanal, queijo cheddar, alface, tomate e molho especial.',
+      preco: 25.00,
+      categoria: 'lanche',
+      img: 'https://images.unsplash.com/photo-1550547660-d9450f859349'
+    },
+    {
+      id: 2,
+      nome: 'X-Bacon',
+      desc: 'Carne artesanal, queijo cheddar, bacon crocante e molho barbecue.',
+      preco: 28.00,
+      categoria: 'lanche',
+      img: 'https://images.unsplash.com/photo-1550547660-d9450f859349'
+    },
+    {
+      id: 3,
+      nome: 'X-Salada',
+      desc: 'Pão artesanal, carne suculenta, queijo, alface, tomate e maionese da casa.',
+      preco: 27.00,
+      categoria: 'lanche',
+      img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add'
+    },
+    {
+      id: 4,
+      nome: 'Combo X-Burger + Batata',
+      desc: 'X-Burger acompanhado de batata frita e refrigerante.',
+      preco: 40.00,
+      categoria: 'combo',
+      img: 'https://images.unsplash.com/photo-1550547660-d9450f859349'
+    },
+    {
+      id: 5,
+      nome: 'Combo X-Bacon + Batata',
+      desc: 'X-Bacon acompanhado de batata frita e refrigerante.',
+      preco: 43.00,
+      categoria: 'combo',
+      img: 'https://images.unsplash.com/photo-1550547660-d9450f859349'
+    },
+    {
+      id: 6,
+      nome: 'Refrigerante Lata',
+      desc: 'Refrigerante de cola, 350ml.',
+      preco: 7.00,
+      categoria: 'bebida',
+      img: 'https://images.unsplash.com/photo-1568051243856-8a1f7bb9b4af'
+    },
+    {
+      id: 7,
+      nome: 'Suco Natural',
+      desc: 'Suco natural de laranja, 300ml.',
+      preco: 9.00,
+      categoria: 'bebida',
+      img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93'
     }
+  ];
 
-    // Adiciona ao carrinho
-    function addToCart(id) {
-      const item = menuItems.find(i => i.id === id);
-      const existing = carrinho.find(i => i.id === id);
-      if (existing) {
-        existing.qtd++;
-      } else {
-        carrinho.push({ ...item, qtd: 1 });
-      }
+  let carrinho = [];
+
+  const menuContainer = document.getElementById('menu');
+  const cartToggle = document.getElementById('cartToggle');
+  const cart = document.getElementById('cart');
+  const cartItems = document.getElementById('cartItems');
+  const cartTotal = document.getElementById('cartTotal');
+  const obs = document.getElementById('obs');
+  const finalizar = document.getElementById('finalizar');
+  const filters = document.querySelectorAll('#filters button');
+
+  // Renderiza os itens no cardápio com filtro
+  function renderMenu(filter = 'all') {
+    menuContainer.innerHTML = '';
+    const filtered = filter === 'all' ? menu : menu.filter(i => i.categoria === filter);
+    filtered.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'item-card';
+      card.innerHTML = `
+        <img class="item-img" src="${item.img}" alt="${item.nome}" />
+        <div class="item-info">
+          <h4 class="item-title">${item.nome}</h4>
+          <p class="item-desc">${item.desc}</p>
+          <div class="item-price">R$ ${item.preco.toFixed(2)}</div>
+          <div class="item-actions">
+            <button onclick="addToCart(${item.id})">Adicionar</button>
+          </div>
+        </div>
+      `;
+      menuContainer.appendChild(card);
+    });
+  }
+
+  // Adiciona item ao carrinho
+  function addToCart(id) {
+    const item = menu.find(i => i.id === id);
+    if (!item) return;
+    const cartItem = carrinho.find(i => i.id === id);
+    if (cartItem) {
+      cartItem.qtd++;
+    } else {
+      carrinho.push({...item, qtd: 1});
+    }
+    updateCart();
+  }
+
+  // Remove item do carrinho
+  function removeFromCart(id) {
+    carrinho = carrinho.filter(i => i.id !== id);
+    updateCart();
+  }
+
+  // Atualiza quantidade do item no carrinho
+  function updateQuantity(id, delta) {
+    const cartItem = carrinho.find(i => i.id === id);
+    if (!cartItem) return;
+    cartItem.qtd += delta;
+    if (cartItem.qtd < 1) {
+      removeFromCart(id);
+    } else {
       updateCart();
     }
+  }
 
-    // Atualiza o carrinho
-    function updateCart() {
-      cartItems.innerHTML = '';
-      let total = 0;
+  // Atualiza a visualização do carrinho
+  function updateCart() {
+    cartItems.innerHTML = '';
+    let total = 0;
+    if (carrinho.length === 0) {
+      cartItems.innerHTML = '<li>Seu carrinho está vazio.</li>';
+    } else {
       carrinho.forEach(item => {
         total += item.preco * item.qtd;
-        cartItems.innerHTML += `
-          <li class="flex justify-between items-center">
-            <span>${item.nome} x${item.qtd}</span>
-            <span>R$ ${(item.preco * item.qtd).toFixed(2)}</span>
-          </li>
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div>
+            ${item.nome} <br />
+            <small>R$ ${item.preco.toFixed(2)} x ${item.qtd} = R$ ${(item.preco * item.qtd).toFixed(2)}</small>
+          </div>
+          <div>
+            <button onclick="updateQuantity(${item.id}, -1)">➖</button>
+            <button onclick="updateQuantity(${item.id}, 1)">➕</button>
+            <button onclick="removeFromCart(${item.id)}" title="Remover item">✖</button>
+          </div>
         `;
+        cartItems.appendChild(li);
       });
-      cartTotal.textContent = total.toFixed(2);
     }
+    cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+  }
 
-    // Abrir/Fechar carrinho
-    cartToggle.addEventListener('click', () => {
-      cart.classList.toggle('translate-x-full');
+  // Toggle abrir/fechar carrinho
+  cartToggle.addEventListener('click', () => {
+    cart.classList.toggle('open');
+  });
+
+  // Filtrar itens do cardápio
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMenu(btn.dataset.filter);
     });
-    closeCartBtn.addEventListener('click', () => {
-      cart.classList.add('translate-x-full');
+  });
+
+  // Finalizar pedido via WhatsApp
+  finalizar.addEventListener('click', () => {
+    if (carrinho.length === 0) {
+      alert('Seu carrinho está vazio!');
+      return;
+    }
+    const numeroWhats = '5511999999999'; // Coloque o número da hamburgueria aqui, com DDD e código do país
+    let msg = `Olá, gostaria de fazer o pedido:%0A`;
+    carrinho.forEach(item => {
+      msg += `- ${item.nome} x${item.qtd} = R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
     });
+    msg += `Total: R$ ${carrinho.reduce((acc, i) => acc + i.preco * i.qtd, 0).toFixed(2)}%0A`;
+    if (obs.value.trim()) {
+      msg += `Observações: ${obs.value.trim()}%0A`;
+    }
+    const url = `https://wa.me/${numeroWhats}?text=${msg}`;
+    window.open(url, '_blank');
+  });
 
-    // Filtros
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('bg-[var(--amarelo-escuro)]', 'text-black'));
-        btn.classList.add('bg-[var(--amarelo-escuro)]', 'text-black');
-        renderMenu(btn.dataset.category);
-      });
-    });
+  // Renderiza tudo inicialmente
+  renderMenu();
+  updateCart();
 
-    // Finalizar pedido
-    finalizeBtn.addEventListener('click', () => {
-      const obs = obsTextarea.value.trim();
-      let texto = '📋 *Pedido Garagem 127*:%0A';
-      carrinho.forEach(item => {
-        texto += `• ${item.nome} x${item.qtd} - R$ ${(item.preco * item.qtd).toFixed(2)}%0A`;
-      });
-      texto += `📝 *Observações:* ${obs ? obs : 'Nenhuma'}%0A`;
-      texto += `💰 *Total:* R$ ${cartTotal.textContent}%0A`;
-      const link = `https://wa.me/5541997165785?text=${encodeURI(texto)}`;
-      window.open(link, '_blank');
-    });
+  // Deixa as funções globais pra botoes inline funcionarem
+  window.addToCart = addToCart;
+  window.updateQuantity = updateQuantity;
+  window.removeFromCart = removeFromCart;
 
-    renderMenu(); // Inicial
-  </script>
-
+</script>
 </body>
 </html>
